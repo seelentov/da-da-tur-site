@@ -202,6 +202,14 @@ mysqldump:
 psql:
 	 sudo docker compose exec db psql -h ${DB_HOST} -p ${DB_PORT} -d ${DB_DATABASE} -U ${DB_USERNAME}
 
+# Вывод логов базы данных
+db-logs:
+	docker compose logs db
+
+# Вывод логов базы данных с отслеживанием вывода
+db-watch:
+	docker compose logs db --follow
+
 # Сделать дамп базы данных PostgreSQL
 pgdump:
 	sudo docker compose exec db pg_dump -h ${DB_HOST} -p ${DB_PORT} -d ${DB_DATABASE} -U ${DB_USERNAME} > ${DB_DATABASE}.dump
@@ -274,6 +282,10 @@ elastic-reindex:
 backup:
 	tar -czvf backups/$(shell date +"%d-%m-%Y-%H:%M:%S").tar.gz --exclude=backups/* docker/*
 
+# Удалить данные из /docker
+clear-data:
+	rm -rf $(shell pwd)/docker/*
+
 # Сгенерировать SSL-сертификаты
 ssl:
 	docker compose exec nginx apt update
@@ -287,3 +299,4 @@ ufw:
 	ufw allow http
 	ufw allow https
 	ufw enable
+

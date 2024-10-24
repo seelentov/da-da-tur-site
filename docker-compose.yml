@@ -45,23 +45,23 @@ services:
     networks:
       - app
 
-  schedule:
-    container_name: schedule
-    build:
-      context: laravel
-      dockerfile: Dockerfile
-    volumes:
-      - ./laravel/:/var/www
-    depends_on:
-      - db
-      - redis
-      - rabbitmq
-    command: ["php", "artisan", "schedule:run"]
-    profiles: 
-      - workers
-    restart: always
-    networks:
-      - app
+  # schedule:
+  #   container_name: schedule
+  #   build:
+  #     context: laravel
+  #     dockerfile: Dockerfile
+  #   volumes:
+  #     - ./laravel/:/var/www
+  #   depends_on:
+  #     - db
+  #     - redis
+  #     - rabbitmq
+  #   command: ["php", "artisan", "schedule:run"]
+  #   profiles: 
+  #     - workers
+  #   restart: always
+  #   networks:
+  #     - app
   
 
   # db:
