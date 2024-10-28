@@ -12,23 +12,20 @@ class BannerSeeder extends Seeder
      */
     public function run(): void
     {
-
-
         Banner::create([
-            "title" => "СТРАНУ, КРАСОТЫ И ИЗЫСКАННОСТЬ КУЛЬТУР<br/><span>ИССЛЕДУЙ С <span>DADA-ТУР</span></span>",
-            "image_url" => "/storage/icons/star.svg",
-            "description" => "Искренне благодарны каждому клиенту за то что обратился в нашу компанию.",
+            "title" => "<p>СТРАНУ, КРАСОТЫ И ИЗЫСКАННОСТЬ КУЛЬТУР</p>",
+            "description" => "<p>ИССЛЕДУЙ С <strong>DADA-ТУР</strong></p>",
+            "image_url" => "/storage/seed/1.jpg",
             "link" => "/",
             "position" => 0
         ]);
 
-
         Banner::create([
-            "title" => "БЛАГОДАРНОСТЬ",
-            "image_url" => "/storage/icons/star.svg",
-            "description" => "Искренне благодарны каждому клиенту за то что обратился в нашу компанию.",
+            "title" => "<p>СТРАНУ, КРАСОТЫ И ИЗЫСКАННОСТЬ КУЛЬТУР</p>",
+            "description" => "<p>ИССЛЕДУЙ С <strong>DADA-ТУР</strong></p>",
+            "image_url" => "/storage/seed/1.jpg",
             "link" => "/",
-            "position" => 100
+            "position" => 0
         ]);
     }
 }
