@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string("name");
             $table->string("description")->nullable()->default(null);
             $table->string("image_url")->nullable()->default(null);
+            $table->string("slug");
             $table->text("text")->nullable()->default(null);
             $table->date("date")->nullable()->default(null);
             $table->integer("position")->default(0);

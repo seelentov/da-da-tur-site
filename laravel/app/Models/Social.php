@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Social extends Model
 {
+    protected $guarded = [];
+
+    public $timestamps = false;
     /** @use HasFactory<\Database\Factories\SocialFactory> */
     use HasFactory;
 }

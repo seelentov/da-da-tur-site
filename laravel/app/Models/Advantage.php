@@ -7,6 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Advantage extends Model
 {
+    protected $guarded = [];
+
+    public $timestamps = false;
+
     /** @use HasFactory<\Database\Factories\AdvantageFactory> */
     use HasFactory;
 }
