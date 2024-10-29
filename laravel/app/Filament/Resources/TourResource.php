@@ -28,18 +28,22 @@ class TourResource extends Resource
                 Forms\Components\TextInput::make('name')->required(),
                 Forms\Components\TextInput::make('price')->numeric()->required(),
                 Forms\Components\TextInput::make('old_price')->numeric(),
-                Forms\Components\TextInput::make('description'),
-                Forms\Components\TextInput::make('text'),
+                Forms\Components\RichEditor::make('description'),
+                Forms\Components\RichEditor::make('text'),
                 Forms\Components\TextInput::make('slug')
                     ->required(),
                 Forms\Components\Toggle::make('last_minute_deal'),
-                Forms\Components\DatePicker::make('date'),
+                Forms\Components\DatePicker::make('start_date')->required(),
+                Forms\Components\DatePicker::make('end_date')->required(),
                 Forms\Components\FileUpload::make('image_url'),
                 Forms\Components\TextInput::make('position')
                     ->numeric()
-                    ->minValue(1),
+                    ->minValue(0),
                 Forms\Components\Select::make('category_id')
-                    ->relationship(name: 'category', titleAttribute: 'name')
+                    ->relationship(name: 'category', titleAttribute: 'name'),
+
+                Forms\Components\Select::make('city_id')
+                    ->relationship(name: 'city', titleAttribute: 'name')
             ]);
     }
 
@@ -58,7 +62,10 @@ class TourResource extends Resource
                 Tables\Columns\IconColumn::make('last_minute_deal')
                     ->boolean()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('date')
+                Tables\Columns\TextColumn::make('start_date')
+                    ->date()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('end_date')
                     ->date()
                     ->sortable(),
                 Tables\Columns\ImageColumn::make('image_url'),

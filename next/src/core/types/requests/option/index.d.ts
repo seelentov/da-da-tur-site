@@ -1,0 +1,3 @@
+interface IndexOptionRequest {
+    category?: string[]
+}

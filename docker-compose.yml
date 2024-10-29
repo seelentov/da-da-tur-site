@@ -1,6 +1,6 @@
 services:
-  app:
-    container_name: laravel-app
+  laravel:
+    container_name: laravel
     build:
       context: laravel
       dockerfile: Dockerfile
@@ -11,11 +11,13 @@ services:
       - redis
       - rabbitmq
     command: ["php-fpm"]
+    ports:
+      - '9002:9000'
     networks:
       - app
 
   next:
-    container_name: next-app
+    container_name: next
     build:
       context: next
       dockerfile: Dockerfile
@@ -135,3 +137,6 @@ services:
 networks:
     app:
         name: app
+        driver: bridge
+        driver_opts:
+            com.docker.network.bridge.host_binding_ipv4: "0.0.0.0"

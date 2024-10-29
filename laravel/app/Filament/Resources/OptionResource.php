@@ -27,7 +27,7 @@ class OptionResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('key')->required(),
-                Forms\Components\TextInput::make('value')->required(),
+                Forms\Components\RichEditor::make('value')->required(),
                 Forms\Components\TextInput::make('category')->required(),
 
             ]);

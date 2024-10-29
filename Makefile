@@ -7,9 +7,9 @@ init:
 	# Строит и запускает контейнеры в фоновом режиме
 	docker compose up -d --build
 	# Устанавливает зависимости проекта
-	docker compose exec app composer install
+	docker compose exec laravel composer install
 	# Устанавливает Filament
-	docker compose exec app php artisan filament:install --scaffold --tables --forms
+	docker compose exec laravel php artisan filament:install --scaffold --tables --forms
 	# Очищает базу данных и запускает миграции
 	@make fresh
 	# Создает администратора
@@ -20,11 +20,11 @@ init:
 	# Приостанавливает тестировочный супервайзер
 	@make stop-test-horizon
 	# Генерирует ключ приложения
-	docker compose exec app php artisan key:generate
+	docker compose exec laravel php artisan key:generate
 	# Создает символические ссылки для директории storage
-	docker compose exec app php artisan storage:link
+	docker compose exec laravel php artisan storage:link
 	# Устанавливает права доступа для директории storage
-	docker compose exec app chmod -R 777 storage bootstrap/cache
+	docker compose exec laravel chmod -R 777 storage bootstrap/cache
 
 # Запуск контейнеров
 up:
@@ -63,23 +63,23 @@ remake:
 
 # Запуск миграций
 migrate:
-	docker compose exec app php artisan migrate
+	docker compose exec laravel php artisan migrate
 
 # Заполнение базы данных тестовыми данными
 seed:
-	docker compose exec app php artisan db:seed
+	docker compose exec laravel php artisan db:seed
 
 # Заполнение базы данных тестовыми данными, включая администратора
 seed-admin:
-	docker compose exec app php artisan db:seed --class=AdminSeeder
+	docker compose exec laravel php artisan db:seed --class=AdminSeeder
 
 # Очистка базы данных и запуск миграций
 fresh:
-	docker compose exec app php artisan migrate:fresh
+	docker compose exec laravel php artisan migrate:fresh
 
 # Запуск тестов
 test:
-	docker compose exec app php artisan test
+	docker compose exec laravel php artisan test
 
 # Вывод логов для всех контейнеров
 logs:
@@ -118,13 +118,13 @@ next-rebuild:
 next-clear:
 	rm -rf ./next/.next
 
-# Вывод логов для контейнера app
-app-logs:
-	docker compose logs app
+# Вывод логов для контейнера laravel
+laravel-logs:
+	docker compose logs laravel
 
-# Вывод логов для контейнера app с отслеживанием вывода
-app-watch:
-	docker compose logs app --follow
+# Вывод логов для контейнера laravel с отслеживанием вывода
+laravel-watch:
+	docker compose logs laravel --follow
 
 # Вывод логов для elasticsearch
 es-logs:
@@ -177,14 +177,14 @@ env:
 # Установка переменных окружения
 setenv:
 	# Пример:
-	# @make setenv APP_ENV=production
+	# @make setenv laravel_ENV=production
 	# Добавляет переменную окружения в файл .env
 	echo "export $1=$2" >> .env
 
 
-# Открыть bash-консоль в контейнере app
+# Открыть bash-консоль в контейнере laravel
 bash:
-	docker compose exec app bash
+	docker compose exec laravel bash
 
 # Открыть bash-консоль в контейнере next.js
 next-bash:
@@ -212,11 +212,11 @@ db-watch:
 
 # Сделать дамп базы данных PostgreSQL
 pgdump:
-	sudo docker compose exec db pg_dump -h ${DB_HOST} -p ${DB_PORT} -d ${DB_DATABASE} -U ${DB_USERNAME} > ${DB_DATABASE}.dump
+	sudo docker compose exec db pg_dump -h ${DB_HOST} -p ${DB_PORT} -d ${DB_DATABASE} -U ${DB_USERNAME} > backups/${DB_DATABASE}_$(shell date +"%d-%m-%Y-%H:%M:%S").dump
 
 # Сгенерировать секретный ключ JWT
 jwt:
-	docker compose exec app php artisan jwt:secret
+	docker compose exec laravel php artisan jwt:secret
 
 # Показать запущенные контейнеры
 ps:
@@ -224,8 +224,8 @@ ps:
 
 # Откатить базу данных к начальному состоянию
 rollback-test:
-	docker compose exec app php artisan migrate:fresh
-	docker compose exec app php artisan migrate:refresh
+	docker compose exec laravel php artisan migrate:fresh
+	docker compose exec laravel php artisan migrate:refresh
 
 # Подготовить приложение к продакшену
 prepare:
@@ -239,24 +239,24 @@ clear:
 
 # Оптимизировать приложение
 optimize:
-	docker compose exec app php artisan optimize
+	docker compose exec laravel php artisan optimize
 # Очистить оптимизированные файлы
 optimize-clear:
-	docker compose exec app php artisan optimize:clear
+	docker compose exec laravel php artisan optimize:clear
 # Закешировать приложение
 cache:
-	docker compose exec app composer dump-autoload -o
+	docker compose exec laravel composer dump-autoload -o
 	@make optimize
-	docker compose exec app php artisan event:cache
-	docker compose exec app php artisan view:cache
+	docker compose exec laravel php artisan event:cache
+	docker compose exec laravel php artisan view:cache
 # Очистить кэш
 cache-clear:
-	docker compose exec app composer clear-cache
+	docker compose exec laravel composer clear-cache
 	@make optimize-clear
-	docker compose exec app php artisan event:clear
+	docker compose exec laravel php artisan event:clear
 # Сгенерировать автозагрузчик Composer
 dump-autoload:
-	docker compose exec app composer dump-autoload
+	docker compose exec laravel composer dump-autoload
 
 # Связать файл .env с контейнерами Laravel и Next.js
 env:
@@ -276,11 +276,19 @@ check:
 
 # Переиндексировать ElasticSearch
 elastic-reindex:
-	docker compose exec app php artisan search:reindex
+	docker compose exec laravel php artisan search:reindex
 
 # Создать резервную копию базы данных и файлов приложения
 backup:
-	tar -czvf backups/$(shell date +"%d-%m-%Y-%H:%M:%S").tar.gz --exclude=backups/* docker/*
+	tar -czvf backups/$(shell date +"%d-%m-%Y-%H:%M:%S").tar.gz \
+	--exclude=backups/* \
+	--exclude=laravel/vendor/* \
+	--exclude=next/node_modules/* \
+	--exclude=docker/data/* \
+	* \
+	&& \
+	make pg_dump
+
 
 # Удалить данные из /docker
 clear-data:

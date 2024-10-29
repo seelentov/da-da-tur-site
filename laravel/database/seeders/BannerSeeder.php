@@ -25,7 +25,7 @@ class BannerSeeder extends Seeder
             "description" => "<p>ИССЛЕДУЙ С <strong>DADA-ТУР</strong></p>",
             "image_url" => "/storage/seed/1.jpg",
             "link" => "/",
-            "position" => 0
+            "position" => 100
         ]);
     }
 }

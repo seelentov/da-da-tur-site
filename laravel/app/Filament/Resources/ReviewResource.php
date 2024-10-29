@@ -26,10 +26,10 @@ class ReviewResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')->required(),
-                Forms\Components\TextInput::make('text')->required(),
+                Forms\Components\RichEditor::make('text')->required(),
                 Forms\Components\TextInput::make('stars')
                     ->numeric()
-                    ->minValue(1),
+                    ->minValue(0),
                 Forms\Components\TextInput::make('position')
                     ->numeric()
                     ->minValue(1)

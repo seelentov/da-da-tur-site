@@ -4,10 +4,16 @@ namespace App\Repositories\Subscriber;
 
 
 use App\Models\Subscriber;
+use App\Repositories\Repository;
 
-class SubscriberRepository implements ISubscriberRepository
+class SubscriberRepository extends Repository implements ISubscriberRepository
 {
-    protected $model = new Subscriber();
+    protected $model;
+
+    public function __construct()
+    {
+        $this->model = new Subscriber();
+    }
 
     public function getAll()
     {

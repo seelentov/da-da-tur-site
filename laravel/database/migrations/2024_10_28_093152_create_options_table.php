@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('options', function (Blueprint $table) {
             $table->id();
-            $table->string("key");
-            $table->string(column: "value");
+            $table->string("key")->unique();
+            $table->text(column: "value");
             $table->string(column: "category");
         });
     }

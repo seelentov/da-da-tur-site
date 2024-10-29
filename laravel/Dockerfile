@@ -39,6 +39,10 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 RUN groupadd -g 1000 www
 RUN useradd -u 1000 -ms /bin/bash -g www www
 
+RUN sed -i 's/9000/0.0.0.0:9000/g' /usr/local/etc/php-fpm.d/zz-docker.conf
+
+EXPOSE 9000
+
 COPY . /var/www
 COPY --chown=www:www . /var/www
 

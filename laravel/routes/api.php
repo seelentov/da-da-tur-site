@@ -5,6 +5,7 @@ use App\Http\Controllers\BannerController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\OptionController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\SenderController;
 use App\Http\Controllers\SocialController;
 use App\Http\Controllers\SubscriberController;
 use App\Http\Controllers\TourController;
@@ -12,7 +13,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::group([], function () {
     Route::group([
-        "prefix" => "advantage"
+        "prefix" => "advantage",
+        "middleware" => []
     ], function () {
         Route::get("", [AdvantagesController::class, "index"]);
     });
@@ -52,6 +54,12 @@ Route::group([], function () {
     Route::group([
         "prefix" => "tour"
     ], function () {
-        Route::post("", [TourController::class, "index"]);
+        Route::get("", [TourController::class, "index"]);
+    });
+    Route::group([
+        "prefix" => "sender"
+    ], function () {
+        Route::get("review", [SenderController::class, "sendReview"]);
+        Route::get("form", [SenderController::class, "sendCallForm"]);
     });
 });

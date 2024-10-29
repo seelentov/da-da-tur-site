@@ -17,6 +17,7 @@ abstract class TourRequest extends Request
                 'text' => 'string',
                 'slug' => 'string',
                 'last_minute_deal' => 'boolean',
+                'city' => 'string',
             ]
         );
     }

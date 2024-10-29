@@ -14,7 +14,7 @@ class TourFilter extends AbstractFilter
     public const LAST_MINUTE_DEAL = 'last_minute_deal';
     public const SLUG = 'slug';
 
-
+    public const CITY = 'city';
     protected function getCallbacks(): array
     {
         return [
@@ -23,6 +23,7 @@ class TourFilter extends AbstractFilter
             self::TEXT => [$this, 'text'],
             self::LAST_MINUTE_DEAL => [$this, 'last_minute_deal'],
             self::SLUG => [$this, 'slug'],
+            self::CITY => [$this, 'city'],
         ];
     }
 
@@ -51,5 +52,12 @@ class TourFilter extends AbstractFilter
     public function slug(Builder $builder, $value)
     {
         $builder->where('slug', $value);
+    }
+
+    public function city(Builder $builder, $value)
+    {
+        $builder->whereHas('city', function ($q) use ($value) {
+            $q->where('slug', $value);
+        });
     }
 }

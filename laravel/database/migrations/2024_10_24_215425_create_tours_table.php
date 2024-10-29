@@ -16,14 +16,16 @@ return new class extends Migration
             $table->integer('price');
             $table->integer('old_price')->nullable()->default(null);
             $table->string("name");
-            $table->string("description")->nullable()->default(null);
+            $table->text("description")->nullable()->default(null);
             $table->string("image_url")->nullable()->default(null);
-            $table->string("slug");
+            $table->string("slug")->unique();
             $table->text("text")->nullable()->default(null);
-            $table->date("date")->nullable()->default(null);
+            $table->date("start_date");
+            $table->date("end_date");
             $table->integer("position")->default(0);
             $table->boolean("last_minute_deal")->default(false);
             $table->unsignedBigInteger("category_id")->default(1);
+            $table->unsignedBigInteger("city_id")->default(1);
         });
     }
 

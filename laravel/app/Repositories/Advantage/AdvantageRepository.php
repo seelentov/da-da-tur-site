@@ -4,10 +4,16 @@ namespace App\Repositories\Advantage;
 
 
 use App\Models\Advantage;
+use App\Repositories\Repository;
 
-class AdvantageRepository implements IAdvantageRepository
+class AdvantageRepository extends Repository implements IAdvantageRepository
 {
-    protected $model = new Advantage();
+    protected $model;
+
+    public function __construct()
+    {
+        $this->model = new Advantage();
+    }
 
     public function getAll()
     {

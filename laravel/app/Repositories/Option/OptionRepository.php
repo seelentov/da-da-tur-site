@@ -2,20 +2,45 @@
 
 namespace App\Repositories\Option;
 
-
+use App\Http\Filters\OptionFilter;
+use App\Models\ImageOption;
 use App\Models\Option;
+use App\Repositories\Repository;
 
-class OptionRepository implements IOptionRepository
+class OptionRepository extends Repository implements IOptionRepository
 {
-    protected $model = new Option();
+    protected $model;
+    protected $model2;
 
-    public function getAll()
+    public function __construct()
     {
-        return $this->model->all();
+        $this->model = new Option();
+        $this->model2 = new ImageOption();
+    }
+
+    public function getAll($filter = null)
+    {
+        $query = $this->model;
+        $query2 = $this->model2;
+
+        if ($filter !== null) {
+            $filter = app()->make(OptionFilter::class, ["queryParams" => $filter]);
+
+
+            $query = $query->filter($filter);
+            $query2 = $query2->filter($filter);
+        }
+        $query = $query->get();
+        $query2 = $query2->get();
+
+        return $query->merge($query2);
     }
 
     public function getByCategory(string $category)
     {
-        return $this->model->where("category", $category)->get();
+        $query = $this->model->where("category", $category)->get();
+        $query2 = $this->model2->where("category", $category)->get();
+
+        return  $query->merge($query2);
     }
 }

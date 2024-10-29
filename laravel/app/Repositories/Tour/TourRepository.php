@@ -4,10 +4,16 @@ namespace App\Repositories\Tour;
 
 use App\Http\Filters\TourFilter;
 use App\Models\Tour;
+use App\Repositories\Repository;
 
-class TourRepository implements ITourRepository
+class TourRepository  extends Repository implements ITourRepository
 {
-    protected $model = new Tour();
+    protected $model;
+
+    public function __construct()
+    {
+        $this->model = new Tour();
+    }
 
     public function get($filter = null, $limit = null, $offset = null)
     {

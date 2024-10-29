@@ -4,10 +4,16 @@ namespace App\Repositories\Social;
 
 
 use App\Models\Social;
+use App\Repositories\Repository;
 
-class SocialRepository implements ISocialRepository
+class SocialRepository extends Repository implements ISocialRepository
 {
-    protected $model = new Social();
+    protected $model;
+
+    public function __construct()
+    {
+        $this->model = new Social();
+    }
 
     public function getAll()
     {

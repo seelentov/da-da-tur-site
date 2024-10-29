@@ -11,9 +11,4 @@ class SocialController extends Controller
     {
         return response()->json($this->socialRepository->getAll());
     }
-
-    public function show($place)
-    {
-        return response()->json($this->socialRepository->getByPlace($place));
-    }
 }

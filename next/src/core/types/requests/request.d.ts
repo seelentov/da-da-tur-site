@@ -1,0 +1,1 @@
+type BaseRequest<T> = T

@@ -30,7 +30,7 @@ class SocialResource extends Resource
                     ->required(),
                 Forms\Components\TextInput::make('position')
                     ->numeric()
-                    ->minValue(1),
+                    ->minValue(0),
                 Forms\Components\FileUpload::make('image_url')
                     ->required(),
                 Forms\Components\Toggle::make('in_footer'),

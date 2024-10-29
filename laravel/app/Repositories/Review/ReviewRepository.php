@@ -4,10 +4,16 @@ namespace App\Repositories\Review;
 
 
 use App\Models\Review;
+use App\Repositories\Repository;
 
-class ReviewRepository implements IReviewRepository
+class ReviewRepository extends Repository implements IReviewRepository
 {
-    protected $model = new Review();
+    protected $model;
+
+    public function __construct()
+    {
+        $this->model = new Review();
+    }
 
     public function getAll()
     {
