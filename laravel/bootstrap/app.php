@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Middleware\AdminAuthMiddleware;
+use App\Http\Middleware\GuardMiddleware;
 use App\Http\Middleware\OnlyLocalMiddleware;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -16,6 +17,7 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->alias([
             'admin' => AdminAuthMiddleware::class,
+            'guard' => GuardMiddleware::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

@@ -23,7 +23,7 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ./next/:/var/app
-    command: sh -c "npm run build && npm run ${NEXT_RUN}"
+    command: sh -c "npm run ${NEXT_RUN}"
     ports:
       - '3000:3000'
     networks:
@@ -137,6 +137,3 @@ services:
 networks:
     app:
         name: app
-        driver: bridge
-        driver_opts:
-            com.docker.network.bridge.host_binding_ipv4: "0.0.0.0"

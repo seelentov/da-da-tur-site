@@ -11,10 +11,10 @@ use App\Http\Controllers\SubscriberController;
 use App\Http\Controllers\TourController;
 use Illuminate\Support\Facades\Route;
 
-Route::group([], function () {
+Route::group(["middleware" => ['guard']], function () {
     Route::group([
         "prefix" => "advantage",
-        "middleware" => []
+
     ], function () {
         Route::get("", [AdvantagesController::class, "index"]);
     });
