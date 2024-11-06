@@ -5,11 +5,12 @@ import { objectToQueryString } from "./utils";
 
 export const GET = async <T, U>(url: string, queryParams: T | null = null, options: RequestInit = {}): Promise<BaseResponse<U>> => {
 
+    const path = API_URL + '/api/' + url + "?" + (queryParams ? objectToQueryString(queryParams) : "");
 
-    const res = await fetch(API_URL + '/api/' + url + "?" + (queryParams ? objectToQueryString(queryParams) : ""), {
+    const res = await fetch(path, {
         cache: 'no-cache', headers: {
             'Content-Type': 'application/json',
-            "apikey": process.env.API_KEY || ''
+            "apiKey": process.env.API_KEY || ''
         }, ...options
     });
 
@@ -27,7 +28,7 @@ export const POST = async <T, U>(url: string, body: T | null = null, options: Re
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            "apikey": process.env.API_KEY || ''
+            "apiKey": process.env.API_KEY || ''
         },
         body: JSON.stringify(body),
         ...options

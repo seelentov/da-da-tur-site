@@ -1,0 +1,25 @@
+.main {
+    background: #E33C8C;
+
+    transition: all .2s ease-in-out;
+
+    &:hover {
+        background: #e33c8d4d;
+
+    }
+
+    color: white;
+
+    text-transform: uppercase;
+    border-radius: 4px;
+
+    padding: 10px 20px;
+    font-size: 14px;
+
+    text-wrap: nowrap;
+
+    @media (max-width:992px) {
+        padding: 6px 14px;
+        font-size: 12px;
+    }
+}

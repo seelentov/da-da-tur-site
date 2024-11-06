@@ -45,48 +45,12 @@ class MenuSeeder extends Seeder
         ]);
 
         Menu::create([
-            "name" => "Главная",
-            "link" => "/",
-            "in_header" => false,
-            "in_footer" => true,
-            "position" => 0,
-        ]);
-
-        Menu::create([
-            "name" => "Расписание",
-            "link" => "/",
-            "in_header" => false,
-            "in_footer" => true,
-            "position" => 100,
-            "parent_id" => 5,
-
-        ]);
-
-        Menu::create([
-            "name" => "ГОРЯЩИЕ ТУРЫ",
-            "link" => "/",
-            "in_header" => false,
-            "in_footer" => true,
-            "position" => 200,
-            "parent_id" => 5,
-        ]);
-
-        Menu::create([
-            "name" => "О компании",
-            "link" => "/",
-            "in_header" => false,
-            "in_footer" => true,
-            "position" => 300,
-            "parent_id" => 5,
-        ]);
-
-        Menu::create([
             "name" => "Контакты",
             "link" => "/",
             "in_header" => false,
             "in_footer" => true,
             "position" => 300,
-            "parent_id" => 5,
+            "parent_id" => 4,
         ]);
     }
 }

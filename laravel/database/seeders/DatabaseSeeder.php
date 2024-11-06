@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
             ReviewSeeder::class,
             SocialSeeder::class,
             TourSeeder::class,
+            MenuSeeder::class
             // AdminSeeder::class,
         ]);
     }

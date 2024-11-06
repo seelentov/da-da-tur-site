@@ -13,9 +13,21 @@ class OptionSeeder extends Seeder
      */
     public function run(): void
     {
+        ImageOption::create([
+            "key" => "header_city_logo",
+            "value" => "/storage/seed/address.svg",
+            "category" => "header"
+        ]);
+
         Option::create([
             "key" => "header_search_placeholder",
             "value" => "Поиск по сайту",
+            "category" => "header"
+        ]);
+
+        ImageOption::create([
+            "key" => "header_logo",
+            "value" => "/storage/seed/logo.svg",
             "category" => "header"
         ]);
 
@@ -168,6 +180,13 @@ class OptionSeeder extends Seeder
             "category" => "contacts"
         ]);
 
+
+        ImageOption::create([
+            "key" => "footer_logo",
+            "value" => "/storage/seed/logo_white.svg",
+            "category" => "footer"
+        ]);
+
         Option::create([
             "key" => "footer_copyright",
             "value" => "Copyright © 2024 Da-Da tur.<br/>All rights reserved",
@@ -257,6 +276,12 @@ class OptionSeeder extends Seeder
             "key" => "about_image",
             "value" => "/storage/seed/about.png",
             "category" => "about"
+        ]);
+
+        Option::create([
+            "key" => "core_company_name",
+            "value" => "DA-DA Тур",
+            "category" => "core"
         ]);
     }
 }

@@ -31,16 +31,33 @@ class OptionRepository extends Repository implements IOptionRepository
             $query2 = $query2->filter($filter);
         }
         $query = $query->get();
-        $query2 = $query2->get();
+        $query2 = $query2->get()->map(function ($item) {
+            $item->id *= -1;
+            return $item;
+        });
 
-        return $query->merge($query2);
+        return $this->arrayToKeyValue($query->merge($query2)->toArray());
     }
 
     public function getByCategory(string $category)
     {
         $query = $this->model->where("category", $category)->get();
-        $query2 = $this->model2->where("category", $category)->get();
+        $query2 = $this->model2->where("category", $category)->get()->map(function ($item) {
+            $item->id *= -1;
+            return $item;
+        });
 
-        return  $query->merge($query2);
+        return  $this->arrayToKeyValue($query->merge($query2)->toArray());
+    }
+
+    private function arrayToKeyValue(array $array)
+    {
+        $res = [];
+
+        foreach ($array as $item) {
+            $res[$item['key']] = $item['value'];
+        }
+
+        return $res;
     }
 }

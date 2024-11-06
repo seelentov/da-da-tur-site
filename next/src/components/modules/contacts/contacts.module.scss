@@ -1,0 +1,30 @@
+.main {
+    h2 {
+        font-size: 25.06px;
+        font-weight: 600;
+
+        @media (max-width: 768px) {
+            font-size: 14.06px;
+        }
+
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    h3 {
+        margin-bottom: 10px;
+        font-weight: 700;
+    }
+
+    p,
+    a {
+        margin-bottom: 15px;
+        display: block;
+    }
+
+    display: flex;
+}
+
+.part {
+    width: 50%;
+}

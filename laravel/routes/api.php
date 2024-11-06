@@ -3,12 +3,14 @@
 use App\Http\Controllers\AdvantagesController;
 use App\Http\Controllers\BannerController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CityController;
 use App\Http\Controllers\OptionController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\SenderController;
 use App\Http\Controllers\SocialController;
 use App\Http\Controllers\SubscriberController;
 use App\Http\Controllers\TourController;
+use App\Http\Controllers\MenuController;
 use Illuminate\Support\Facades\Route;
 
 Route::group(["middleware" => ['guard']], function () {
@@ -55,6 +57,16 @@ Route::group(["middleware" => ['guard']], function () {
         "prefix" => "tour"
     ], function () {
         Route::get("", [TourController::class, "index"]);
+    });
+    Route::group([
+        "prefix" => "menu"
+    ], function () {
+        Route::get("", [MenuController::class, "index"]);
+    });
+    Route::group([
+        "prefix" => "city"
+    ], function () {
+        Route::get("", [CityController::class, "index"]);
     });
     Route::group([
         "prefix" => "sender"

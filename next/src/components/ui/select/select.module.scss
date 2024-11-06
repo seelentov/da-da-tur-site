@@ -1,0 +1,39 @@
+.main {
+    cursor: pointer;
+    position: relative
+}
+
+.label {
+    cursor: pointer;
+
+    transition: all .3s ease-in-out;
+
+    &:hover {
+        opacity: 0.5;
+    }
+}
+
+.options {
+    border-radius: 3px;
+    border: 1px solid #CAC4D0;
+    position: absolute;
+    top: 100%;
+    padding: 10px;
+    width: 130%;
+    background-color: white;
+
+    display: flex;
+
+    flex-direction: column;
+    gap: 5px;
+
+    z-index: 100;
+}
+
+.option {
+    transition: all .3s ease-in-out;
+
+    &:hover {
+        opacity: 0.5;
+    }
+}

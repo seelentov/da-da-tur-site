@@ -1,0 +1,22 @@
+.search {
+    margin-left: 50px;
+    margin-right: auto;
+}
+
+.menu {
+    margin-left: auto;
+    margin-right: 50px;
+
+}
+
+.main {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+
+    align-items: center;
+
+    @media (max-width: 992px) {
+        display: none;
+    }
+}

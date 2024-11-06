@@ -1,0 +1,14 @@
+.image {
+    transition: all .2s ease-in-out;
+    scale: 1;
+
+    &:hover {
+        scale: 0.8
+    }
+}
+
+.main {
+    flex-wrap: nowrap;
+    display: flex;
+    gap: 10px;
+}

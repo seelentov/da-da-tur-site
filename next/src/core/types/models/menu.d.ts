@@ -1,4 +1,4 @@
-interface Menu {
+interface MenuBase {
     id: number,
     name: string,
     link: string,
@@ -6,4 +6,8 @@ interface Menu {
     in_footer: boolean,
     in_header: boolean,
     position: number,
+}
+
+interface Menu extends MenuBase {
+    childrens: MenuBase[]
 }

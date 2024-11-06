@@ -29,34 +29,34 @@ class TourFilter extends AbstractFilter
 
     public function category(Builder $builder, $value)
     {
-        $builder->whereHas('category', function ($q) use ($value) {
+        $builder->orWhereHas('category', function ($q) use ($value) {
             $q->where('slug', $value);
         });
     }
 
     public function name(Builder $builder, $value)
     {
-        $builder->where('name', "ilike", '%' . $value . '%');
+        $builder->orWhere('name', "ilike", '%' . $value . '%');
     }
 
     public function text(Builder $builder, $value)
     {
-        $builder->where('text', "ilike", '%' . $value . '%')->orWhere('description', "ilike", '%' . $value . '%');
+        $builder->orWhere('text', "ilike", '%' . $value . '%')->orWhere('description', "ilike", '%' . $value . '%');
     }
 
     public function last_minute_deal(Builder $builder, $value)
     {
-        $builder->where('last_minute_deal', $value);
+        $builder->orWhere('last_minute_deal', $value);
     }
 
     public function slug(Builder $builder, $value)
     {
-        $builder->where('slug', $value);
+        $builder->orWhere('slug', $value);
     }
 
     public function city(Builder $builder, $value)
     {
-        $builder->whereHas('city', function ($q) use ($value) {
+        $builder->orWhereHas('city', function ($q) use ($value) {
             $q->where('slug', $value);
         });
     }
