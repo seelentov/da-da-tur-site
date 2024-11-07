@@ -26,6 +26,7 @@ class ReviewResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')->required(),
+                Forms\Components\TextInput::make('link')->required(),
                 Forms\Components\RichEditor::make('text')->required(),
                 Forms\Components\TextInput::make('stars')
                     ->numeric()
@@ -43,6 +44,7 @@ class ReviewResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name'),
+                Tables\Columns\TextColumn::make('link'),
                 Tables\Columns\TextColumn::make('text'),
                 Tables\Columns\TextColumn::make('stars')
                     ->sortable(),

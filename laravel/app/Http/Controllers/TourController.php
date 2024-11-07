@@ -22,6 +22,11 @@ class TourController extends Controller
     public function show($slug)
     {
         $data = $this->tourRepository->getBySlug($slug);
+
+        if (is_null($data)) {
+            return response()->json(['error' => 'Not found'], 404);
+        }
+
         return response()->json($data);
     }
 }

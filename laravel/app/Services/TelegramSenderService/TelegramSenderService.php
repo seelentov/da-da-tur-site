@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Service\TelegramSenderService;
+namespace App\Services\TelegramSenderService;
 
 use App\Components\Clients\TelegramClient;
-use App\Service\Service;
+use App\Services\Service;
 
 class TelegramSenderService extends Service implements ITelegramSenderService
 {

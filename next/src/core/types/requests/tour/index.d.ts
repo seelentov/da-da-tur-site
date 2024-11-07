@@ -3,6 +3,6 @@ interface IndexTourRequest {
     name?: string
     text?: string
     slug?: string
-    last_minute_deal?: string
+    last_minute_deal?: 0 | 1
     city?: string
 }

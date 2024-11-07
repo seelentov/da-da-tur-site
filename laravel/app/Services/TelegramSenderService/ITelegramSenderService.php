@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service\TelegramSenderService;
+namespace App\Services\TelegramSenderService;
 
 
 interface ITelegramSenderService

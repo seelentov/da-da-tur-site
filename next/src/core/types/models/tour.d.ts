@@ -7,8 +7,8 @@ interface Tour {
     image_url?: string;
     slug: string;
     text?: string;
-    start_date: Date;
-    end_date: Date;
+    start_date: string;
+    end_date: string;
     position: number;
     last_minute_deal: boolean;
     category_id: number;

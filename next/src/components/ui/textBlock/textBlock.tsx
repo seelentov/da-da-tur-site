@@ -2,6 +2,7 @@ import Image from 'next/image'
 import styles from './textBlock.module.scss'
 import Link from 'next/link'
 import { Button } from '../button/button'
+import { parseImageLink } from '@/core/utils/image/parseImageLink'
 
 interface ITextBlockProps {
     text?: string | null,
@@ -20,7 +21,7 @@ export function TextBlock({ text, image_url, imageAlt, imagePos = "left", header
         <div className={`${styles.main} ${imagePos === "right" ? styles.mainRight : ""}`}>
             <div className={styles.left}>
                 <Image
-                    src={image_url || ""}
+                    src={parseImageLink(image_url || "")}
                     alt={imageAlt || ""}
                     className={`${styles.image} ${imagePos === "left" ? styles.imageLeft : styles.imageRight}`}
                     width={0}

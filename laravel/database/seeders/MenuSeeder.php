@@ -22,7 +22,7 @@ class MenuSeeder extends Seeder
 
         Menu::create([
             "name" => "Расписание",
-            "link" => "/",
+            "link" => "/tours",
             "in_header" => true,
             "in_footer" => false,
             "position" => 100
@@ -30,7 +30,7 @@ class MenuSeeder extends Seeder
 
         Menu::create([
             "name" => "ГОРЯЩИЕ ТУРЫ",
-            "link" => "/",
+            "link" => "/hot",
             "in_header" => true,
             "in_footer" => false,
             "position" => 200
@@ -38,19 +38,10 @@ class MenuSeeder extends Seeder
 
         Menu::create([
             "name" => "О компании",
-            "link" => "/",
+            "link" => "/about",
             "in_header" => true,
             "in_footer" => false,
             "position" => 300
-        ]);
-
-        Menu::create([
-            "name" => "Контакты",
-            "link" => "/",
-            "in_header" => false,
-            "in_footer" => true,
-            "position" => 300,
-            "parent_id" => 4,
         ]);
     }
 }

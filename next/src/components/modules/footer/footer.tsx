@@ -21,7 +21,6 @@ export async function Footer() {
                         width={0}
                         height={0}
                         sizes="100vw"
-                        style={{ width: 'auto', height: 'auto' }}
                     />
                     <p>Copyright © 2024 Da-Da tur.</p>
                     <p>All rights reserved</p>

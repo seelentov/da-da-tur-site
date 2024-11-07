@@ -57,6 +57,7 @@ Route::group(["middleware" => ['guard']], function () {
         "prefix" => "tour"
     ], function () {
         Route::get("", [TourController::class, "index"]);
+        Route::get("{slug}", [TourController::class, "show"]);
     });
     Route::group([
         "prefix" => "menu"
@@ -71,7 +72,6 @@ Route::group(["middleware" => ['guard']], function () {
     Route::group([
         "prefix" => "sender"
     ], function () {
-        Route::get("review", [SenderController::class, "sendReview"]);
-        Route::get("form", [SenderController::class, "sendCallForm"]);
+        Route::post("", [SenderController::class, "sendCallForm"]);
     });
 });

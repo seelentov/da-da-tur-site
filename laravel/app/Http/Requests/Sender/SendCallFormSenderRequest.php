@@ -2,9 +2,7 @@
 
 namespace App\Http\Requests\Sender;
 
-use App\Http\Requests\Request;
-
-abstract class SendCallFormSenderRequest extends Request
+class SendCallFormSenderRequest extends SenderRequest
 {
     public function __construct()
     {

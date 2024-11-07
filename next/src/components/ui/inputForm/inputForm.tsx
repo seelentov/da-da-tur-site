@@ -3,6 +3,7 @@
 import Image from 'next/image'
 import styles from './inputForm.module.scss'
 import { useState } from 'react'
+import { parseImageLink } from '@/core/utils/image/parseImageLink'
 
 
 export type IInputProps<T> = React.InputHTMLAttributes<HTMLInputElement> & {
@@ -31,7 +32,7 @@ export function InputForm<T>({ className, value, icon = "/storage/seed/send.svg"
             <input  {...rest} value={value} className={`${styles.input} ${className} ${error != "" ? styles.error : ""}`} onChange={(e) => setInput(e.target.value)} placeholder={error != "" ? error : rest.placeholder} />
             <button className={styles.button} >
                 <Image
-                    src={icon}
+                    src={parseImageLink(icon)}
                     alt={"Submit"}
                     className={styles.logo}
                     width={0}

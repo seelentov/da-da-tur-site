@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import styles from './socials.module.scss'
+import { parseImageLink } from '@/core/utils/image/parseImageLink'
 
 interface ISocialProps {
     socials?: Social[] | null
@@ -11,7 +12,7 @@ export async function Socials({ socials }: ISocialProps) {
             {socials && socials.map(el =>
                 <a href={el.link} target='_blank' key={el.id} className={styles.item}>
                     <Image
-                        src={el.image_url}
+                        src={parseImageLink(el.image_url)}
                         alt={el.name}
                         width={0}
                         height={0}

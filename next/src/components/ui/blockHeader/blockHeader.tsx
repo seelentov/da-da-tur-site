@@ -18,7 +18,7 @@ export function BlockHeader({ header, button, description, headerAlign = "left",
     return (
         <>
             {header && <div className={styles.header}>
-                {header && <h2 style={{ textAlign: headerAlign }}>{header}</h2>}
+                {header && <h2 style={{ textAlign: headerAlign }} dangerouslySetInnerHTML={{ __html: header }}></h2>}
                 {button && <Link href={button.link}><Button>{button.text}</Button></Link>}
                 {rightNode && rightNode}
             </div>}

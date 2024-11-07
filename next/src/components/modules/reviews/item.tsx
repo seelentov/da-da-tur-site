@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import styles from './reviews.module.scss'
 import { convertDBDateToString } from '@/core/utils/date/convertDBDateToString'
+import { parseImageLink } from '@/core/utils/image/parseImageLink'
 
 
 interface IReviewItemProps {
@@ -17,7 +18,7 @@ export function ReviewItem({ image_url, name, text, stars, created_at, link }: I
         <div className={styles.item}>
             <div className={styles.header}>
                 <Image
-                    src={image_url || ""}
+                    src={parseImageLink(image_url || "")}
                     alt={name}
                     className={styles.image}
                     width={0}
@@ -29,15 +30,15 @@ export function ReviewItem({ image_url, name, text, stars, created_at, link }: I
             <div className={styles.text}>
                 {text}
             </div>
-            {link && <a href={link} target='_blank'><span>ВЕСЬ ОТЗЫВ</span> <span>⇀</span></a>}
-            <a className={styles.link}><span>ВЕСЬ ОТЗЫВ</span> <span>⇀</span></a>
+            {link && <a className={styles.link} href={link} target='_blank'><span>ВЕСЬ ОТЗЫВ</span> <span>⇀</span></a>}
+
             <div className={styles.footer}>
                 <p>{convertDBDateToString(created_at)}</p>
                 <div className={styles.stars}>
                     {Array.from(Array(stars).keys()).map(index =>
                         <Image
                             key={index}
-                            src={"storage/seed/star_white.svg"}
+                            src={"/storage/seed/star_white.svg"}
                             alt={""}
                             width={0}
                             height={0}

@@ -57,6 +57,12 @@ class OptionSeeder extends Seeder
         ]);
 
         Option::create([
+            "key" => "last_minute_deal_button",
+            "value" => "ПОСМОТРЕТЬ ВСЕ ТУРЫ",
+            "category" => "last_minute_deal"
+        ]);
+
+        Option::create([
             "key" => "last_minute_deal_page_header",
             "value" => "Горящие туры",
             "category" => "last_minute_deal_page"
@@ -121,7 +127,7 @@ class OptionSeeder extends Seeder
 
 
         Option::create([
-            "key" => "contacts_header2",
+            "key" => "form",
             "value" => "Задать вопрос",
             "category" => "contacts"
         ]);
@@ -279,9 +285,39 @@ class OptionSeeder extends Seeder
         ]);
 
         Option::create([
+            "key" => "about_header2",
+            "value" => "Почему мы называемся DaDa-тур?",
+            "category" => "about"
+        ]);
+
+        Option::create([
+            "key" => "about_desc2",
+            "value" => "<p>Изначально мы заложили в это название такой посыл как - Скажи ДА и разреши себе ДАрить счастье и всегДА следуй этому решению!</p><p>Но! Однажды в одном туре в ДАгестане наш экскурсовод сказала нам что ДаДа это в переводе с аварского означает Папа!</p><p>И это тоже про нас! Вы получите такую заботу, такую безопасность и такую любовь будто вашим путешествием занимается самый хороший на свете, добрый и любящий Папа!</p>",
+            "category" => "about"
+        ]);
+
+        ImageOption::create([
+            "key" => "about_image2",
+            "value" => "/storage/seed/about2.png",
+            "category" => "about"
+        ]);
+
+        Option::create([
             "key" => "core_company_name",
             "value" => "DA-DA Тур",
             "category" => "core"
+        ]);
+
+        Option::create([
+            "key" => "map_pos1",
+            "value" => "55.159902",
+            "category" => "map"
+        ]);
+
+        Option::create([
+            "key" => "map_pos2",
+            "value" => "61.402554",
+            "category" => "map"
         ]);
     }
 }

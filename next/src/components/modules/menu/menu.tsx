@@ -15,7 +15,6 @@ export function Menu({ items }: IMenuProps) {
                     <li key={el.id} className={styles.item}><Link href={el.link}>{el.name}</Link>
                         {el.childrens.length > 0 && <ul className={styles.subMenu}>
                             {el.childrens.map(subEl => <li key={subEl.id} className={styles.subItem}><Link href={subEl.link}>{subEl.name}</Link></li>)}
-                            {el.childrens.map(subEl => <li key={subEl.id} className={styles.subItem}><Link href={subEl.link}>{subEl.name}</Link></li>)}
                         </ul>}
                     </li>
                 )}

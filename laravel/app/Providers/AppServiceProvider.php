@@ -12,8 +12,8 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->bind(
-            \App\Service\TelegramSenderService\ITelegramSenderService::class,
-            \App\Service\TelegramSenderService\TelegramSenderService::class
+            \App\Services\TelegramSenderService\ITelegramSenderService::class,
+            \App\Services\TelegramSenderService\TelegramSenderService::class
         );
     }
 

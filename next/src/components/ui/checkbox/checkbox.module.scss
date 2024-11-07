@@ -1,11 +1,14 @@
 .checkbox {
-    display: inline-block;
     position: relative;
     width: 20px;
     height: 20px;
     border: 2px solid #ccc;
     border-radius: 3px;
     cursor: pointer;
+
+    display: flex;
+    align-items: center;
+
 }
 
 .checkbox input[type="checkbox"] {
@@ -21,8 +24,12 @@
     border-radius: 3px;
     background-color: transparent;
     transition: background-color 0.3s ease;
+    background-color: #E33C8C;
 }
 
 .label {
-    margin-left: 5px;
+    font-size: 11px;
+    margin-left: 25px;
+    width: 100%;
+    text-wrap: nowrap;
 }

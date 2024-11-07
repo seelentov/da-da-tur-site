@@ -3,6 +3,7 @@ import styles from './header.module.scss'
 import { GET } from '@/core/api/api';
 import Link from 'next/link';
 import { Nav } from '../nav/nav';
+import { parseImageLink } from '@/core/utils/image/parseImageLink';
 
 export async function Header() {
 
@@ -17,7 +18,7 @@ export async function Header() {
             <div className={`${styles.container} container`}>
                 <Link href="/">
                     <Image
-                        src={options?.header_logo || ""}
+                        src={parseImageLink(options?.header_logo || "")}
                         alt={options?.core_company_name || ""}
                         className={styles.logo}
                         width={0}

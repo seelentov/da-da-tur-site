@@ -134,7 +134,7 @@ class TourSeeder extends Seeder
                 "slug" => "aviatur-dagestan-chechnya-barhatnyj-sezon" . $i + 3,
                 "city_id" => 1,
                 "position" => 0,
-                "last_minute_deal" => true,
+                "last_minute_deal" => false,
                 "category_id" => 2,
             ]);
         }
@@ -260,7 +260,7 @@ class TourSeeder extends Seeder
                 "slug" => "aviatur-dagestan-chechnya-barhatnyj-sezon" . $i + 9,
                 "city_id" => 1,
                 "position" => 0,
-                "last_minute_deal" => true,
+                "last_minute_deal" => false,
                 "category_id" => 1,
             ]);
         }

@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import styles from './advantages.module.scss'
+import { parseImageLink } from '@/core/utils/image/parseImageLink'
 
 interface IAdvantageItemProps {
     iconUrl: string,
@@ -11,7 +12,7 @@ export function AdvantageItem({ iconUrl, header, description }: IAdvantageItemPr
     return (
         <div className={styles.item}>
             <Image
-                src={iconUrl}
+                src={parseImageLink(iconUrl)}
                 alt={header}
                 className={styles.image}
                 width={0}

@@ -1,3 +1,3 @@
 export function parseImageLink(url: string) {
-    return url.includes("storage") ? url : "/storage/" + url
+    return url.startsWith("/storage/") ? url : "/storage/" + url
 }

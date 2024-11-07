@@ -13,7 +13,6 @@ export function MobileNav({ cities, header_search_placeholder, header_city_logo,
     const [isOpen, setIsOpen] = useState<boolean>(false)
 
     const handleWrapperClick = (event: React.MouseEvent<HTMLDivElement>) => {
-        // Check if the click originated from within the nav element
         if (event.target === event.currentTarget) {
             setIsOpen(false);
         }

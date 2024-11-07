@@ -9,6 +9,7 @@ import { GET } from "@/core/api/api";
 import { Loading } from "@/components/ui/loading/loading";
 import Link from "next/link";
 import { useDebounce } from "@/core/hooks/useDebounce";
+import { parseImageLink } from "@/core/utils/image/parseImageLink";
 
 
 interface ISearchProps {
@@ -50,12 +51,12 @@ export function Search({ placeholder }: ISearchProps) {
             {input !== "" &&
                 <div className={styles.list}>
                     {isLoading ? <Loading min /> : searchElems.length > 0 ? searchElems.map(el =>
-                        <Link key={el.id} className={styles.item} href={el.slug}>
+                        <Link key={el.id} className={styles.item} href={"/tours/" + el.slug}>
                             <h3>
                                 {el.name}
                             </h3>
                             <Image
-                                src={el.image_url || ""}
+                                src={parseImageLink(el.image_url || "")}
                                 alt={el.name}
                                 className={styles.itemImage}
                                 width={0}

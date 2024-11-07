@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import styles from './banners.module.scss'
 import Image from 'next/image'
+import { parseImageLink } from '@/core/utils/image/parseImageLink'
 
 type IBannerItem = Omit<Banner, "id" | "position"> & { header?: "h1" | "h2" }
 
@@ -8,7 +9,7 @@ export function BannerItem({ link, image_url, title, description, header = "h2" 
     return (
         <Link href={link} className={styles.item}>
             <Image
-                src={"/storage/" + image_url}
+                src={parseImageLink(image_url)}
                 alt={title}
                 className={styles.image}
                 width={0}

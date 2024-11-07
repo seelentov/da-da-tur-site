@@ -2,9 +2,15 @@
     display: flex;
 
     @media (max-width: 768px) {
-        flex-direction: column-reverse;
+        flex-direction: column-reverse !important;
     }
 
+
+
+}
+
+.mainRight {
+    flex-direction: row-reverse;
 }
 
 .left {
@@ -41,7 +47,9 @@
     }
 }
 
-.imageRight {}
+.imageRight {
+    left: 0;
+}
 
 
 .imageLeft {

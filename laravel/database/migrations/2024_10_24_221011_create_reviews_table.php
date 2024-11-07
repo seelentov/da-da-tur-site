@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('reviews', function (Blueprint $table) {
             $table->id();
             $table->string("name");
+            $table->string("link");
             $table->string("image_url")->nullable()->default(null);
             $table->text("text")->default("");
             $table->integer("stars")->default(1);

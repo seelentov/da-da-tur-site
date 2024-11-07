@@ -28,13 +28,14 @@ export const POST = async <T, U>(url: string, body: T | null = null, options: Re
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
+            'Accept': 'application/json',
             "apiKey": process.env.API_KEY || ''
         },
-        body: JSON.stringify(body),
+        body: JSON.parse(JSON.stringify(body)),
         ...options
     })
 
-    const result = await res.json()
+    const result = await res.text()
 
-    return result
+    return result as any
 };
