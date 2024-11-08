@@ -17,7 +17,7 @@ class TelegramClient extends Client
     public function sendMessage(string $chatId, string $text)
     {
         $client = $this->getClient();
-        $response = $client->post($this->$this->options["base_uri"], [
+        $response = $client->post($this->options["base_uri"], [
             'form_params' => [
                 'chat_id' => $chatId,
                 'text' => $text,

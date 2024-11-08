@@ -31,11 +31,11 @@ export const POST = async <T, U>(url: string, body: T | null = null, options: Re
             'Accept': 'application/json',
             "apiKey": process.env.API_KEY || ''
         },
-        body: JSON.parse(JSON.stringify(body)),
+        body: JSON.stringify(body),
         ...options
     })
 
-    const result = await res.text()
+    const result = await res.json()
 
     return result as any
 };

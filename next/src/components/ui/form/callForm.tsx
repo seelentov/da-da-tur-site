@@ -10,6 +10,7 @@ import { usePathname } from 'next/navigation';
 import { POST } from '@/core/api/api';
 import { Loading } from '../loading/loading';
 import ReCAPTCHA from "react-google-recaptcha";
+import { clearObj } from '@/core/utils/obj/clearObj';
 
 export interface ICallFormProps {
     header?: string
@@ -24,7 +25,7 @@ export function CallForm({ header = "Задать вопрос", defaultTheme = 
     const [message, setMessage] = useState<string>("")
     const [policy, setPolicy] = useState<boolean>(true)
 
-    const [errors, setErrors] = useState<{ [key: string]: string } | null>(null)
+    const [errors, setErrors] = useState<{ [key: string]: string[] } | null>(null)
 
     const [isLoading, setIsLoading] = useState<boolean>(false)
 
@@ -39,17 +40,27 @@ export function CallForm({ header = "Задать вопрос", defaultTheme = 
         setState(value)
     }
 
+    function clearForm() {
+        setName("")
+        setEmail("")
+        setPhone("")
+        setTheme(defaultTheme)
+        setMessage("")
+    }
 
     async function handleSubmit(e: any) {
         e.preventDefault()
 
-        if (!token || token === "") {
+        if (!enabled) {
+            return
+        }
+
+        if (process.env.RECAPTCHA_PUBLIC_KEY && (!token || token === "")) {
             alert("Пройдите проверку ReCaptcha");
             return false;
         }
 
-        setIsLoading(true)
-        await POST<CallFormSenderRequest, BaseResponse<null>>("sender", {
+        const data = clearObj({
             phone,
             email,
             name,
@@ -57,14 +68,29 @@ export function CallForm({ header = "Задать вопрос", defaultTheme = 
             policy,
             topic: theme,
             page
-        })
-            .then((res) => console.log(res))
-            .catch((res) => console.log(res))
-            .finally(() => setIsLoading(false))
+        }) as CallFormSenderRequest
+
+        setIsLoading(true)
+        await POST<CallFormSenderRequest, BaseResponse<{ errors?: { [key: string]: string[] } }>>("sender", data)
+            .then((res) => {
+                if (res?.errors) {
+                    setErrors(res?.errors)
+                    return
+                }
+
+                alert("Заявка успешно отправлена!")
+
+
+                console.log(res)
+            })
+            .catch((res) => alert(res))
+            .finally(() => {
+                clearForm()
+                setIsLoading(false)
+            })
     }
 
-    const enabled = !isLoading && token != ""
-
+    const enabled = !isLoading && (process.env.RECAPTCHA_PUBLIC_KEY ? token != "" : true) && policy
 
     return (
         <div className={styles.main}>
@@ -73,19 +99,19 @@ export function CallForm({ header = "Задать вопрос", defaultTheme = 
             </h2>
             <form onSubmit={handleSubmit}>
                 <div className={styles.part}>
-                    <Input value={name} onChange={(e) => handleChange(setName, e.target.value)} placeholder={errors?.name ? errors?.name[0] : 'Как вас зовут?'} type='text' disabled={enabled} />
-                    <Input value={email} onChange={(e) => handleChange(setEmail, e.target.value)} placeholder='Email' type='email' disabled={enabled} />
+                    <Input value={name} onChange={(e) => handleChange(setName, e.target.value)} placeholder={errors?.name ? errors?.name[0] : 'Как вас зовут?'} type='text' disabled={!enabled} isError={Boolean(errors?.name)} />
+                    <Input value={email} onChange={(e) => handleChange(setEmail, e.target.value)} placeholder={errors?.email ? errors?.email[0] : 'Email'} type='email' disabled={!enabled} isError={Boolean(errors?.email)} />
                 </div>
                 <div className={styles.part}>
-                    <Input value={phone} onChange={(e) => handleChange(setPhone, e.target.value)} placeholder='Номер телефона' type='tel' disabled={enabled} />
-                    <Input value={theme} onChange={(e) => handleChange(setTheme, e.target.value)} placeholder='Тема' type='text' disabled={enabled} />
+                    <Input value={phone} onChange={(e) => handleChange(setPhone, e.target.value)} placeholder={errors?.phone ? errors?.phone[0] : 'Номер телефона*'} type='tel' disabled={!enabled} isError={Boolean(errors?.phone)} required pattern="[0-9]{6,12}" />
+                    <Input value={theme} onChange={(e) => handleChange(setTheme, e.target.value)} placeholder={errors?.theme ? errors?.theme[0] : 'Тема'} type='text' disabled={!enabled} isError={Boolean(errors?.theme)} />
                 </div>
                 <div className={styles.part}>
-                    <Textarea value={message} onChange={(e) => handleChange(setMessage, e.target.value)} placeholder='Сообщение' disabled={enabled} />
+                    <Textarea value={message} onChange={(e) => handleChange(setMessage, e.target.value)} placeholder={errors?.message ? errors?.message[0] : 'Сообщение'} disabled={!enabled} />
                 </div>
                 <div className={styles.bottom}>
-                    <Checkbox isChecked={policy} setIsChecked={setPolicy} label={"Я принимаю условия передачи информации"} disabled={enabled} />
-                    <Button disabled={enabled}>{isLoading ? <Loading color={"white"} min /> : 'отправить'}</Button>
+                    <Checkbox isChecked={policy} setIsChecked={setPolicy} label={"Я принимаю условия передачи информации"} disabled={!enabled} required name="policy" />
+                    <Button disabled={!enabled}>{isLoading ? <Loading color={"white"} min /> : 'отправить'}</Button>
                 </div>
                 {process.env.RECAPTCHA_PUBLIC_KEY && <ReCAPTCHA
                     sitekey={process.env.RECAPTCHA_PUBLIC_KEY}

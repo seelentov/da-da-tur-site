@@ -13,7 +13,7 @@ abstract class Client
     {
         $this->options = [
             "timeout" => 10.0,
-            'verify' => base_path() . '/cacert.pem'
+            'verify' => false
         ];
     }
 

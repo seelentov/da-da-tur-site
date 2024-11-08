@@ -2,17 +2,28 @@
 
 namespace App\Http\Controllers;
 
+use App\Components\Clients\TelegramClient;
 use App\Http\Requests\Subscriber\StoreSubscriberRequest;
+use App\Jobs\ThrowTelegramSubscriber;
 use App\Repositories\Subscriber\SubscriberRepository;
+use App\Services\TelegramSenderService\TelegramSenderService;
+use Illuminate\Support\Facades\Queue;
 
 class SubscriberController extends Controller
 {
-    public function __construct(private SubscriberRepository $subscriberRepository) {}
+    public function __construct(
+        private SubscriberRepository $subscriberRepository,
+        private TelegramSenderService $telegramSenderService
+    ) {}
     public function store(StoreSubscriberRequest $request)
     {
 
         $data = $request->validated();
 
-        return response()->json($this->subscriberRepository->create($data));
+        $this->subscriberRepository->create($data["email"]);
+
+        ThrowTelegramSubscriber::dispatch($data["email"]);
+
+        return response()->json(200);
     }
 }

@@ -2,6 +2,7 @@ import { GET } from "@/core/api/api";
 import { IBasePageProps } from "../layout";
 import { Schedule } from "@/components/modules/schedule/schedule";
 import { Metadata } from "next";
+import { OpenModalBtn } from "@/components/modules/openModalBtn/openModalBtn";
 
 export const metadata: Metadata = {
   title: "Расписание туров | DA-DA Тур",
@@ -45,7 +46,9 @@ export default async function ToursPage({ searchParams }: IBasePageProps) {
           {tours && <Schedule tours={tours} />}
         </div>
       </div>
-
+      <div className="container text" style={{ display: 'flex', justifyContent: 'center' }}>
+        <OpenModalBtn header={"Забронировать тур"}>Забронировать без предоплаты</OpenModalBtn>
+      </div>
     </div>
   );
 }

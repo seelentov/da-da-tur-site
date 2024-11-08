@@ -2,6 +2,8 @@ include .env
 
 # Инициализация проекта
 init:
+	# Создать файлы конфигурации SSL
+	# @make generate-keys
 	# Создает файл .env, если он отсутствует, создает ссылку
 	@make env
 	# Строит и запускает контейнеры в фоновом режиме
@@ -192,9 +194,9 @@ setenv:
 bash:
 	docker compose exec laravel bash
 
-# Открыть bash-консоль в контейнере next.js
-next-bash:
-	docker compose exec next bash
+# Открыть bash-консоль в контейнере nginx
+nginx-bash:
+	docker compose exec nginx bash
 
 # Открыть консоль MySQL
 mysql:
@@ -314,3 +316,7 @@ ufw:
 	ufw allow https
 	ufw enable
 
+# Создать файлы конфигурации SSL
+generate-keys:
+	openssl genrsa > docker/nginx/certs/privkey.pem
+	openssl req -new -x509 -key docker/nginx/certs/privkey.pem > docker/nginx/certs/fullchain.pem

@@ -11,9 +11,6 @@ class TestJob implements ShouldQueue
 {
     use Queueable, Dispatchable;
 
-    /**
-     * Create a new job instance.
-     */
     public function __construct()
     {
         $this

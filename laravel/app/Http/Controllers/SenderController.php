@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Sender\SendReviewSenderRequest;
 use App\Http\Requests\Sender\SendCallFormSenderRequest;
+use App\Jobs\ThrowTelegramCallForm;
 use App\Services\TelegramSenderService\TelegramSenderService;
+use Illuminate\Support\Facades\Queue;
 
 class SenderController extends Controller
 {
@@ -14,15 +16,7 @@ class SenderController extends Controller
     {
         $query = $request->validated();
 
-        // $this->telegramSenderService->sendCallForm(
-        //     name: $query["name"],
-        //     email: $query["email"],
-        //     phone: $query["phone"],
-        //     topic: $query["topic"],
-        //     message: $query["message"],
-        //     policy: $query["policy"],
-        //     page: $query["page"],
-        // );
+        ThrowTelegramCallForm::dispatch($query);
 
         return response()->json(200);
     }

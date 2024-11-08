@@ -3,4 +3,18 @@
     border: 1px solid #CAC4D0;
     padding: 4px 10px;
     font-size: 12px;
+
+    transition: all .2s ease-in-out;
+}
+
+.error {
+    transition: all .2s ease-in-out;
+
+    border: 1px solid rgb(173, 0, 0) !important;
+}
+
+.error::placeholder {
+    color: rgb(173, 0, 0) !important;
+    transition: all .2s ease-in-out;
+
 }

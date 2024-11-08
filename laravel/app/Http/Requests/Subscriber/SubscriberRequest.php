@@ -7,7 +7,7 @@ use App\Http\Requests\Request;
 abstract class SubscriberRequest extends Request
 {
     protected $mutation_rules = [
-        'email' => 'string|required|email|unique:users,email',
+        'email' => 'string|required|email|unique:subscribers,email',
         'throw_message' => 'boolean'
     ];
     protected $query_rules;

@@ -4,32 +4,53 @@ import Image from 'next/image'
 import styles from './inputForm.module.scss'
 import { useState } from 'react'
 import { parseImageLink } from '@/core/utils/image/parseImageLink'
+import { clearObj } from '@/core/utils/obj/clearObj'
+import { POST } from '@/core/api/api'
 
 
-export type IInputProps<T> = React.InputHTMLAttributes<HTMLInputElement> & {
+export type IInputProps = React.InputHTMLAttributes<HTMLInputElement> & {
     icon?: string
-    onConfirm?: (value: string) => Promise<T>
 }
 
-export function InputForm<T>({ className, value, icon = "/storage/seed/send.svg", onConfirm, ...rest }: IInputProps<T>) {
+export function InputForm({ className, icon = "/storage/seed/send.svg", ...rest }: IInputProps) {
 
     const [input, setInput] = useState<string>("")
     const [error, setError] = useState<string>("")
 
+    function handleChange(value: string) {
+        if (error) {
+            setError("")
+        }
+        setInput(value)
+    }
+
     async function handleConfirm(e: any) {
         e.preventDefault()
-        setError("")
 
-        if (onConfirm) {
-            onConfirm(input)
-                .then((e: any) => console.log(e))
-                .catch((e) => setError(e))
-        }
+        const data = clearObj({
+            email: input,
+        }) as CallFormSenderRequest
+
+        await POST<BaseSenderRequest, BaseResponse<{ errors?: { [key: string]: string[] } }>>("subscriber", data)
+            .then((res) => {
+                console.log(res)
+
+
+                if (res?.errors) {
+                    setError(res?.errors.email[0])
+                    return
+                }
+
+                alert("Вы успешно подписались на рассылку!")
+            })
+            .catch((res) => alert(res))
+            .finally(() => setInput(""))
+
     }
 
     return (
         <form className={styles.main} onSubmit={handleConfirm}>
-            <input  {...rest} value={value} className={`${styles.input} ${className} ${error != "" ? styles.error : ""}`} onChange={(e) => setInput(e.target.value)} placeholder={error != "" ? error : rest.placeholder} />
+            <input  {...rest} value={input} className={`${styles.input} ${className} ${error != "" ? styles.error : ""}`} onChange={(e) => handleChange(e.target.value)} placeholder={error != "" ? error : rest.placeholder} type='email' required />
             <button className={styles.button} >
                 <Image
                     src={parseImageLink(icon)}
