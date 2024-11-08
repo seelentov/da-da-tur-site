@@ -24,6 +24,9 @@ services:
     volumes:
       - ./next/:/var/app
     command: sh -c "npm run ${NEXT_RUN}"
+    depends_on:
+      - nginx
+      - laravel
     ports:
       - '3000:3000'
     networks:

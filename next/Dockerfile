@@ -8,7 +8,7 @@ RUN npm install
 COPY . .
 
 RUN rm -rf .next
-
+# RUN npm run build
 
 
 
