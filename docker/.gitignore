@@ -3,5 +3,9 @@
 !nginx/conf.d/**
 !nginx/conf.d
 
+!nginx/**/**
+nginx/etc-letsencrypt/live/vsegda-dada.ru/fullchain.pem
+nginx/etc-letsencrypt/live/vsegda-dada.ru/privkey.pem
+
 !.gitkeep
 !.gitignore
