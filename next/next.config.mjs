@@ -4,6 +4,9 @@ const nextConfig = {
         domains: ['localhost'],
         unoptimized: true,
     },
+    experimental: {
+        missingSuspenseWithCSRBailout: false,
+    },
 };
 
 export default nextConfig;
