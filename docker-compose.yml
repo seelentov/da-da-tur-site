@@ -110,16 +110,8 @@ services:
     volumes:
       - ./laravel/:/var/www
       - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
-      - ./docker/nginx/certbot/www:/var/www/certbot
-      - ./docker/nginx/certbot/conf:/etc/nginx/ssl
     networks:
       - app
-
-  certbot:
-    image: certbot/certbot:latest
-    volumes:
-      - ./docker/nginx/certbot/www/:/var/www/certbot/
-      - ./docker/nginx/certbot/conf:/etc/nginx/ssl
 
   rabbitmq:
     image: rabbitmq:3-management
