@@ -27,7 +27,7 @@ class CallFormMail extends Mailable implements ShouldQueue
 
     public function build()
     {
-        return $this->from("da-datour@yandex.ru")
+        return $this->from(env("MAIL_LISTENER"))
             ->subject('Заявка с формы обратной связи')
             ->view('mail.call-form-mail');
     }
