@@ -108,8 +108,19 @@ services:
     volumes:
       - ./laravel/:/var/www
       - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./docker/nginx/etc-letsencrypt:/etc/letsencrypt
     networks:
       - app
+
+  certbot:
+    image: certbot/certbot
+    depends_on:
+      - nginx
+    container_name: certbot
+    volumes:
+      - ./docker/nginx/etc-letsencrypt:/etc/letsencrypt
+      - ./laravel/:/var/www
+    command: certonly --webroot --webroot-path=/var/www/html --email komkov.pixellperfect.ru --agree-tos --no-eff-email -d test.world-itech.ru
 
   rabbitmq:
     image: rabbitmq:3-management
