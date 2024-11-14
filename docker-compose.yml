@@ -121,7 +121,7 @@ services:
     volumes:
       - ./docker/nginx/etc-letsencrypt:/etc/letsencrypt
       - ./laravel/:/var/www
-    command: certonly --webroot --webroot-path=/var/www --email komkov.pixellperfect.ru --agree-tos --no-eff-email -d test.world-itech.ru
+    command: certonly --webroot --webroot-path=/var/www --email komkov.pixellperfect@gmail.com --agree-tos --no-eff-email -d vsegda-dada.ru -v
     networks:
       - app
 
