@@ -1,0 +1,51 @@
+{
+    "queues": [
+        {
+            "name": "default",
+            "vhost": "/",
+            "durable": true,
+            "auto_delete": false,
+            "arguments": {
+                "x-queue-type": "classic"
+            }
+        },
+        {
+            "name": "test",
+            "vhost": "/",
+            "durable": true,
+            "auto_delete": false,
+            "arguments": {
+                "x-queue-type": "classic"
+            }
+        }
+    ],
+    "exchanges": [
+        {
+            "name": "def_exchange",
+            "vhost": "/",
+            "type": "direct",
+            "durable": true,
+            "auto_delete": false,
+            "internal": false,
+            "arguments": {}
+        }
+    ],
+    "bindings": [
+        {
+            "source": "def_exchange",
+            "vhost": "/",
+            "destination": "default",
+            "destination_type": "queue",
+            "routing_key": "default",
+            "arguments": {}
+        },
+        {
+            "source": "def_exchange",
+            "vhost": "/",
+            "destination": "test",
+            "destination_type": "queue",
+            "routing_key": "test",
+            "arguments": {}
+        }
+    ]
+}
