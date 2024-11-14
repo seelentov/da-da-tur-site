@@ -110,31 +110,16 @@ services:
     volumes:
       - ./laravel/:/var/www
       - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
-      - ./docker/nginx/certs:/etc/nginx/certs
-      - /tmp/letsencrypt/www:/tmp/letsencrypt/www
+      - ./docker/nginx/certbot/www:/var/www/certbot
+      - ./docker/nginx/certbot/conf:/etc/nginx/ssl
     networks:
       - app
 
-  letsencrypt:
-    image: gordonchan/auto-letsencrypt
-    links:
-      - nginx
+  certbot:
+    image: certbot/certbot:latest
     volumes:
-      - /var/log/letsencrypt/:/var/log/letsencrypt
-      - /var/run/docker.sock:/var/run/docker.sock
-      - /etc/letsencrypt:/etc/letsencrypt
-      - /var/lib/letsencrypt:/var/lib/letsencrypt
-      - /tmp/letsencrypt/www:/tmp/letsencrypt/www
-      - ./docker/nginx/certs:/etc/nginx/certs
-    environment:
-      - EMAIL=my@email.com
-      - SERVER_CONTAINER=nginx
-      - WEBROOT_PATH=/tmp/letsencrypt/www
-      - CERTS_PATH=/etc/nginx/certs
-      - DOMAINS=site.com
-      - CHECK_FREQ=1
-      - SERVER_CONTAINER_LABEL=proxy_nginx
-    restart: unless-stopped
+      - ./docker/nginx/certbot/www/:/var/www/certbot/
+      - ./docker/nginx/certbot/conf:/etc/nginx/ssl
 
   rabbitmq:
     image: rabbitmq:3-management
