@@ -16,11 +16,11 @@ class GuardMiddleware
     public function handle(Request $request, Closure $next): Response
     {
 
-        // $api_key = $request->header("apiKey");
+        $api_key = $request->header("apiKey");
 
-        // if (is_null($api_key) || env("API_KEY") !== $api_key) {
-        //     return response()->json(['error' => 'Unauthorized'], 403);
-        // }
+        if (is_null($api_key) || env("API_KEY") !== $api_key) {
+            return response()->json(['error' => 'Unauthorized'], 403);
+        }
 
         return $next($request);
     }
