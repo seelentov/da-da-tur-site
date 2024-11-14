@@ -7,7 +7,7 @@ return [
     'port' => env('MAIL_PORT', 587),
     'from' => [
         'address' => 'da-datour@yandex.ru',
-        'name' => 'Da - da tour',
+        'name' => 'da-datour',
     ],
     'encryption' => env('MAIL_ENCRYPTION', 'tls'),
     'username' => env('MAIL_USERNAME', 'da-datour@yandex.ru'),

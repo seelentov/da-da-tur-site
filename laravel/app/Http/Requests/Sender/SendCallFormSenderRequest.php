@@ -10,9 +10,14 @@ class SendCallFormSenderRequest extends SenderRequest
     }
     public function rules()
     {
-        return array_merge($this->base_rules, [
+        return  [
             "page" => "required|string",
-            "topic" => "string"
-        ]);
+            "topic" => "string",
+            'phone' => 'required|string',
+            'email' => 'string',
+            'name' => 'string',
+            'message' => 'string',
+            'policy' => 'boolean',
+        ];
     }
 }
