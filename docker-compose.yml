@@ -100,9 +100,7 @@ services:
 
   nginx:
     container_name: nginx
-    build:
-      context: docker
-      dockerfile: nginx/Dockerfile
+    image: nginx:stable-alpine
     restart: always
     ports:
       - "80:80"
