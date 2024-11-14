@@ -1,2 +1,3 @@
 .env
 docker/nginx/conf.d/vsegda-dada.ru.conf
+docker-compose.yml

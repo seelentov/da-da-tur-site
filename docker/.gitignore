@@ -1,6 +1,5 @@
-*/*
+*/*/*
 
-!nginx/**/**
 nginx/etc-letsencrypt/live/vsegda-dada.ru/fullchain.pem
 nginx/etc-letsencrypt/live/vsegda-dada.ru/privkey.pem
 
