@@ -100,9 +100,9 @@ services:
 
   nginx:
     container_name: nginx
-    image: nginx:stable-alpine
-    labels:
-      proxy_nginx: "ssl"
+    build:
+      context: docker
+      dockerfile: nginx/Dockerfile
     restart: always
     ports:
       - "80:80"
