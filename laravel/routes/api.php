@@ -73,5 +73,6 @@ Route::group(["middleware" => ['guard']], function () {
         "prefix" => "sender"
     ], function () {
         Route::post("", [SenderController::class, "sendCallForm"]);
+        Route::post("test", [SenderController::class, "test"]);
     });
 });

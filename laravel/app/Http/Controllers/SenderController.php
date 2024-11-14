@@ -20,4 +20,10 @@ class SenderController extends Controller
 
         return response()->json(200);
     }
+    public function test()
+    {
+
+        mail("komkov222111@gmail.com", "subject", "message");
+        return response()->json(200);
+    }
 }
