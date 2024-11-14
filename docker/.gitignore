@@ -1,8 +1,7 @@
 */*
-!nginx/certs
-nginx/certs/*
 
-!nginx/default.conf
-!nginx
+!nginx/conf.d/**
+!nginx/conf.d
+
 !.gitkeep
 !.gitignore
