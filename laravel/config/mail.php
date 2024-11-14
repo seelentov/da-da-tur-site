@@ -11,6 +11,6 @@ return [
     ],
     'encryption' => env('MAIL_ENCRYPTION', 'tls'),
     'username' => env('MAIL_USERNAME', 'da-datour@yandex.ru'),
-    'password' => env('MAIL_PASSWORD', 'Archegaebow221'),
+    'password' => env('MAIL_PASSWORD', '123'),
 
 ];
