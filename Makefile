@@ -290,4 +290,6 @@ logs:
 
 #Откатить локальные изменения git и pull
 git:
-	git stash push --include-untracked && git stash drop && git pull
+	git stash push --include-untracked
+	git stash drop
+	git pull
