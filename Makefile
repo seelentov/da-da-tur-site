@@ -4,8 +4,6 @@ include .env
 init:
 	# Создать файлы конфигурации SSL
 	# @make generate-keys
-	# Меняет пользователя и пароль для файла инициализации rabbitmq
-	@make rabbitpass
 	# Создает файл .env, если он отсутствует, создает ссылку
 	@make env
 	# Строит и запускает контейнеры в фоновом режиме
@@ -256,12 +254,6 @@ generate-nginx-keys:
 #Запуск certbot
 certbot:
 	docker compose up certbot
-
-
-#Замена пароля и имени пользователя rabbitmq на прописанные в .env
-rabbitpass:
-	sed -i -e "s/replaceitpass/${RABBITMQ_PASSWORD}/g" docker/rabbitinit/definitions.json
-	sed -i -e "s/replaceituser/${RABBITMQ_USER}/g" docker/rabbitinit/definitions.json
 
 #Установить docker на хост-машину
 install-docker:
