@@ -24,7 +24,7 @@ class SubscriberController extends Controller
 
         $this->subscriberRepository->create($data["email"]);
 
-        Mail::to(env("MAIL_TO"))->queue(new SubscribeMail(["email" => $data["email"]]));
+        Mail::send(new SubscribeMail(["email" => $data["email"]]));
 
         return response()->json(200);
     }
