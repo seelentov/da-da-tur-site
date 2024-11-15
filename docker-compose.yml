@@ -139,7 +139,7 @@ services:
     restart: always
     volumes:
       - ./docker/rabbitmq:/var/lib/rabbitmq
-      - ./docker/rabbitinit/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
+      # - ./docker/rabbitinit/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
       # - ./docker/rabbitinit/definitions.json:/etc/rabbitmq/definitions.json:ro
     networks:
       - app
