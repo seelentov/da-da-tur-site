@@ -7,7 +7,7 @@ init:
 	# Создает файл .env, если он отсутствует, создает ссылку
 	@make env
 	# Строит и запускает контейнеры в фоновом режиме
-	docker compose up -d --build
+	docker compose up -d --build --exclude certbot
 	# Устанавливает зависимости проекта
 	docker compose exec laravel composer install
 	# Устанавливает Filament
@@ -31,7 +31,7 @@ init:
 # Запуск контейнеров
 up:
 	# Запускает все сервисы в фоновом режиме
-	docker compose --profile "*" up -d
+	docker compose --profile "*" up -d --exclude certbot
 	sleep 5s
 	# Приостанавливает тестировочный супервайзер
 	@make stop-test-horizon
@@ -318,5 +318,5 @@ ufw:
 
 # Создать файлы конфигурации SSL
 generate-keys:
-	openssl genrsa > docker/nginx/certs/privkey.pem
-	openssl req -new -x509 -key docker/nginx/certs/privkey.pem > docker/nginx/certs/fullchain.pem
+	openssl genrsa > docker/nginx/etc-letsencrypt/live/vsegda-dada.ru/privkey.pem
+	openssl req -new -x509 -key docker/nginx/etc-letsencrypt/live/vsegda-dada.ru/privkey.pem > docker/nginx/certs/fullchain.pem
