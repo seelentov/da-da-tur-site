@@ -319,4 +319,4 @@ ufw:
 # Создать файлы конфигурации SSL
 generate-keys:
 	openssl genrsa > docker/nginx/etc-letsencrypt/live/vsegda-dada.ru/privkey.pem
-	openssl req -new -x509 -key docker/nginx/etc-letsencrypt/live/vsegda-dada.ru/privkey.pem > docker/nginx/certs/fullchain.pem
+	openssl req -new -x509 -key docker/nginx/etc-letsencrypt/live/vsegda-dada.ru/privkey.pem > docker/nginx/etc-letsencrypt/live/vsegda-dada.ru/fullchain.pem
