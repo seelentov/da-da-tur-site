@@ -120,7 +120,7 @@ services:
     volumes:
       - ./docker/nginx/etc-letsencrypt:/etc/letsencrypt
       - ./laravel/:/var/www
-    command: certonly --webroot --webroot-path=/var/www/public --email discounttoura@gmail.com --agree-tos --no-eff-email -d vsegda-dada.ru -v
+    command: certonly --webroot --webroot-path=/var/www/public --email ${ADMIN_EMAIL} --agree-tos --no-eff-email -d ${DOMAIN} -v
     profiles: 
       - certbot
     networks:

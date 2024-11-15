@@ -4,6 +4,8 @@ include .env
 init:
 	# Создать файлы конфигурации SSL
 	# @make generate-keys
+	# Меняет пользователя и пароль для файла инициализации rabbitmq
+	@make rabbitpass
 	# Создает файл .env, если он отсутствует, создает ссылку
 	@make env
 	# Строит и запускает контейнеры в фоновом режиме
@@ -17,7 +19,7 @@ init:
 	# Создает администратора
 	@make seed-admin
 	# Запускает воркеров в фоновом режиме
-	docker compose --profile workers up -d
+	docker compose --profile workers up -d --build
 	sleep 5s
 	# Приостанавливает тестировочный супервайзер
 	@make stop-test-horizon
@@ -27,15 +29,24 @@ init:
 	docker compose exec laravel php artisan storage:link
 	# Устанавливает права доступа для директории storage
 	docker compose exec laravel chmod -R 777 storage bootstrap/cache
+	
+	# Инициализация nextjs
+	@make init-next
 
 # Запуск контейнеров
 up:
 	# Запускает все сервисы в фоновом режиме
 	docker compose up -d
 	docker compose --profile workers up -d
+	docker compose --profile next up -d
 	sleep 5s
 	# Приостанавливает тестировочный супервайзер
 	@make stop-test-horizon
+
+# Инициализация nextjs
+init-next:
+	@make next-rebuild
+	docker compose --profile next up -d --build
 
 # Остановка контейнеров
 stop:
@@ -91,57 +102,26 @@ test:
 	docker compose exec laravel php artisan test
 
 # Вывод логов для всех контейнеров
-logs:
+logs-all:
 	docker compose logs
 
 # Вывод логов для всех контейнеров с отслеживанием вывода
-watch:
+watch-all:
 	docker compose logs --follow
-
-# Вывод логов для nginx
-web-logs:
-	docker compose logs nginx
-
-# Вывод логов для nginx с отслеживанием вывода
-web-watch:
-	docker compose logs nginx --follow
 
 # Перезагрузка конфигурации nginx
 nginx-reload:
 	sudo docker compose exec nginx nginx -t && sudo docker compose exec nginx nginx -s reload
 
-# Вывод логов для next.js
-next-logs:
-	docker compose logs next
-
-# Вывод логов для next.js с отслеживанием вывода
-next-watch:
-	docker compose logs next --follow
-
-# Перестройка приложения next.js
-next-rebuild:
-	@make next-clear
-	docker compose exec next npm run build
-
 # Очистка директории сборки next.js
 next-clear:
 	rm -rf ./next/.next
 
-# Вывод логов для контейнера laravel
-laravel-logs:
-	docker compose logs laravel
+# Перестройка приложения next.js
+next-rebuild:
+	@make next-clear
+	npm --prefix ./next run build
 
-# Вывод логов для контейнера laravel с отслеживанием вывода
-laravel-watch:
-	docker compose logs laravel --follow
-
-# Вывод логов для elasticsearch
-es-logs:
-	docker compose logs elasticsearch
-
-# Вывод логов для elasticsearch с отслеживанием вывода
-es-watch:
-	docker compose logs elasticsearch --follow
 
 # Вывод статуса Horizon
 horizon-status:
@@ -155,25 +135,9 @@ horizon-pause:
 horizon-continue:
 	docker compose exec horizon php artisan horizon:continue
 
-# Вывод логов Horizon
-horizon-logs:
-	docker compose logs horizon
-
-# Вывод логов Horizon с отслеживанием вывода
-horizon-watch:
-	docker compose logs horizon --follow
-
 # Приостанавливает тестировочный супервайзер
 stop-test-horizon:
 	docker compose exec horizon php artisan horizon:pause-supervisor supervisor-test
-
-# Вывод логов планировщика задач
-schedule-logs:
-	docker compose logs schedule
-
-# Вывод логов планировщика задач с отслеживанием вывода
-schedule-watch:
-	docker compose logs schedule --follow
 
 # Создание файла .env, если он отсутствует
 env:
@@ -182,22 +146,6 @@ env:
 	  # Копирует файл .env.example в .env
 	  cp .env.example .env; \
 	fi
-
-# Установка переменных окружения
-setenv:
-	# Пример:
-	# @make setenv laravel_ENV=production
-	# Добавляет переменную окружения в файл .env
-	echo "export $1=$2" >> .env
-
-
-# Открыть bash-консоль в контейнере laravel
-bash:
-	docker compose exec laravel bash
-
-# Открыть bash-консоль в контейнере nginx
-nginx-bash:
-	docker compose exec nginx bash
 
 # Открыть консоль MySQL
 mysql:
@@ -210,14 +158,6 @@ mysqldump:
 # Открыть консоль PostgreSQL
 psql:
 	 sudo docker compose exec db psql -h ${DB_HOST} -p ${DB_PORT} -d ${DB_DATABASE} -U ${DB_USERNAME}
-
-# Вывод логов базы данных
-db-logs:
-	docker compose logs db
-
-# Вывод логов базы данных с отслеживанием вывода
-db-watch:
-	docker compose logs db --follow
 
 # Сделать дамп базы данных PostgreSQL
 pgdump:
@@ -269,7 +209,6 @@ dump-autoload:
 
 # Связать файл .env с контейнерами Laravel и Next.js
 env:
-	touch .env
 	rm -rf ./laravel/.env
 	rm -rf ./next/.env
 	ln .env ./laravel
@@ -282,10 +221,6 @@ redis:
 # Проверить, работает ли приложение
 check:
 	curl -s -o /dev/null -w "%{http_code}\n" http://localhost
-
-# Переиндексировать ElasticSearch
-elastic-reindex:
-	docker compose exec laravel php artisan search:reindex
 
 # Создать резервную копию базы данных и файлов приложения
 backup:
@@ -301,13 +236,9 @@ backup:
 
 # Удалить данные из /docker
 clear-data:
-	rm -rf $(shell pwd)/docker/*
-
-# Сгенерировать SSL-сертификаты
-ssl:
-	docker compose exec nginx apt update
-	docker compose exec nginx apk add certbot certbot-nginx
-	docker compose exec nginx certbot --nginx
+	rm -rf $(shell pwd)/docker/dada
+	rm -rf $(shell pwd)/docker/redis
+	rm -rf $(shell pwd)/docker/rabbitmq
 
 # Настроить брандмауэр UFW
 ufw:
@@ -318,10 +249,49 @@ ufw:
 	ufw enable
 
 # Создать файлы конфигурации SSL
-generate-keys:
-	openssl genrsa > docker/nginx/etc-letsencrypt/live/vsegda-dada.ru/privkey.pem
-	openssl req -new -x509 -key docker/nginx/etc-letsencrypt/live/vsegda-dada.ru/privkey.pem > docker/nginx/etc-letsencrypt/live/vsegda-dada.ru/fullchain.pem
+generate-nginx-keys:
+	openssl genrsa > docker/nginx/etc-letsencrypt/live/${DOMAIN}/privkey.pem
+	openssl req -new -x509 -key docker/nginx/etc-letsencrypt/live/${DOMAIN}/privkey.pem > docker/nginx/etc-letsencrypt/live/${DOMAIN}/fullchain.pem
 
 #Запуск certbot
 certbot:
 	docker compose up certbot
+
+
+#Замена пароля и имени пользователя rabbitmq на прописанные в .env
+rabbitpass:
+	sed -i -e "s/replaceitpass/${RABBITMQ_PASSWORD}/g" docker/rabbitinit/definitions.json
+	sed -i -e "s/replaceituser/${RABBITMQ_USER}/g" docker/rabbitinit/definitions.json
+
+#Установить docker на хост-машину
+install-docker:
+	apt-get update
+	apt-get install ca-certificates curl
+	install -m 0755 -d /etc/apt/keyrings
+	curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+	chmod a+r /etc/apt/keyrings/docker.asc
+
+	echo \
+  	"deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+  	$(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+  	tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+	apt-get update
+
+
+#Установить nodejs + npm на хост машину
+install-node:
+	apt update
+	apt install -y nodejs npm
+	npm cache clean -f
+	npm install -g n
+	n stable
+	hash -r
+
+#Просмотр журнала у контейнера с отслеживанием
+watch:
+	docker compose logs $$S --follow
+
+#Просмотр журнала у контейнера
+logs:
+	docker compose logs $$S
