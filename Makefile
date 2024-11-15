@@ -287,3 +287,7 @@ watch:
 #Просмотр журнала у контейнера
 logs:
 	docker compose logs $$S
+
+#Откатить локальные изменения git и pull
+git:
+	git stash push --include-untracked && git stash drop
