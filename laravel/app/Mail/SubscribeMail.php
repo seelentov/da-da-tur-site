@@ -25,7 +25,7 @@ class SubscribeMail extends Mailable implements ShouldQueue
 
     public function build()
     {
-        return $this->from(env("MAIL_LISTENER"))
+        return $this->to(env("MAIL_LISTENER"))
             ->subject('Новая подписка на рассылку')
             ->view('mail.subscribe-mail');
     }
