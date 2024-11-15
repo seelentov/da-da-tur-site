@@ -7,7 +7,7 @@ init:
 	# Создает файл .env, если он отсутствует, создает ссылку
 	@make env
 	# Строит и запускает контейнеры в фоновом режиме
-	docker compose up -d --build
+	docker compose up -d
 	# Устанавливает зависимости проекта
 	docker compose exec laravel composer install
 	# Устанавливает Filament
@@ -17,7 +17,7 @@ init:
 	# Создает администратора
 	@make seed-admin
 	# Запускает воркеров в фоновом режиме
-	docker compose --profile workers up -d --build
+	docker compose --profile workers up -d
 	sleep 5s
 	# Приостанавливает тестировочный супервайзер
 	@make stop-test-horizon
@@ -44,7 +44,7 @@ up:
 # Инициализация nextjs
 init-next:
 	@make next-rebuild
-	docker compose --profile next up -d --build
+	docker compose --profile next up -d
 
 # Остановка контейнеров
 stop:
