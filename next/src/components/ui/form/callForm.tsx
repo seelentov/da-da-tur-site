@@ -33,6 +33,8 @@ export function CallForm({ header = "Задать вопрос", defaultTheme = 
 
     const page = usePathname()
 
+    const RECAPTCHA_PUBLIC_KEY = process.env.RECAPTCHA_PUBLIC_KEY
+
     function handleChange<T>(setState: Dispatch<SetStateAction<T>>, value: T) {
         if (errors) {
             setErrors(null)
@@ -55,7 +57,7 @@ export function CallForm({ header = "Задать вопрос", defaultTheme = 
             return
         }
 
-        if (process.env.RECAPTCHA_PUBLIC_KEY && (!token || token === "")) {
+        if (RECAPTCHA_PUBLIC_KEY && (!token || token === "")) {
             alert("Пройдите проверку ReCaptcha");
             return false;
         }
@@ -90,7 +92,7 @@ export function CallForm({ header = "Задать вопрос", defaultTheme = 
             })
     }
 
-    const enabled = !isLoading && (process.env.RECAPTCHA_PUBLIC_KEY ? token != "" : true) && policy
+    const enabled = !isLoading && (RECAPTCHA_PUBLIC_KEY ? token != "" : true) && policy
 
     return (
         <div className={styles.main}>
@@ -113,8 +115,8 @@ export function CallForm({ header = "Задать вопрос", defaultTheme = 
                     <Checkbox isChecked={policy} setIsChecked={setPolicy} label={"Я принимаю условия передачи информации"} disabled={!enabled} required name="policy" />
                     <Button disabled={!enabled}>{isLoading ? <Loading color={"white"} min /> : 'отправить'}</Button>
                 </div>
-                {process.env.RECAPTCHA_PUBLIC_KEY && <ReCAPTCHA
-                    sitekey={process.env.RECAPTCHA_PUBLIC_KEY}
+                {RECAPTCHA_PUBLIC_KEY && <ReCAPTCHA
+                    sitekey={RECAPTCHA_PUBLIC_KEY}
                     onChange={(token: any) => setToken(token)}
                 />}
             </form>
