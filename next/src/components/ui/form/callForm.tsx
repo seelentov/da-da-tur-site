@@ -11,6 +11,7 @@ import { POST } from '@/core/api/api';
 import { Loading } from '../loading/loading';
 import ReCAPTCHA from "react-google-recaptcha";
 import { clearObj } from '@/core/utils/obj/clearObj';
+import { RECAPTCHA_PUBLIC_KEY } from '@/core/api/env';
 
 export interface ICallFormProps {
     header?: string
@@ -32,8 +33,6 @@ export function CallForm({ header = "Задать вопрос", defaultTheme = 
     const [token, setToken] = useState("");
 
     const page = usePathname()
-
-    const RECAPTCHA_PUBLIC_KEY = process.env.RECAPTCHA_PUBLIC_KEY
 
     function handleChange<T>(setState: Dispatch<SetStateAction<T>>, value: T) {
         if (errors) {
@@ -112,7 +111,7 @@ export function CallForm({ header = "Задать вопрос", defaultTheme = 
                     <Textarea value={message} onChange={(e) => handleChange(setMessage, e.target.value)} placeholder={errors?.message ? errors?.message[0] : 'Сообщение'} disabled={!enabled} />
                 </div>
                 <div className={styles.bottom}>
-                    <Checkbox isChecked={policy} setIsChecked={setPolicy} label={"Я принимаю условия передачи информации"} disabled={!enabled} required name="policy" />
+                    <Checkbox isChecked={policy} setIsChecked={setPolicy} label={"Я принимаю условия передачи информации"} required name="policy" />
                     <Button disabled={!enabled}>{isLoading ? <Loading color={"white"} min /> : 'отправить'}</Button>
                 </div>
                 {RECAPTCHA_PUBLIC_KEY && <ReCAPTCHA
