@@ -292,3 +292,7 @@ logs:
 git-drop:
 	git stash push --include-untracked
 	git stash drop
+
+#Вход в tinker
+tinker:
+	docker compose exec laravel php artisan tinker
