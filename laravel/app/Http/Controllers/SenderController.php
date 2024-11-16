@@ -15,7 +15,7 @@ class SenderController extends Controller
     {
         $query = $request->validated();
 
-        Mail::to(env('MAIL_LISTENER'))->queue(new CallFormMail($query));
+        Mail::queue(new CallFormMail($query));
 
         return response()->json();
     }

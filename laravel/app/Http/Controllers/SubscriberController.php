@@ -23,7 +23,7 @@ class SubscriberController extends Controller
         $data = $request->validated();
 
         $this->subscriberRepository->create($data["email"]);
-        Mail::to(env('MAIL_LISTENER'))->queue(new SubscribeMail(["email" => $data["email"]]));
+        Mail::queue(new SubscribeMail(["email" => $data["email"]]));
         return response()->json(200);
     }
 }
