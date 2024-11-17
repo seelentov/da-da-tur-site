@@ -7,6 +7,8 @@ import { Search } from '../../search/search'
 import styles from './mobileNav.module.scss'
 import Hamburger from 'hamburger-react'
 import { IMenuProps } from '../nav'
+import { Suspense } from 'react'
+
 
 export function MobileNav({ cities, header_search_placeholder, header_city_logo, menuItems }: IMenuProps) {
 
@@ -23,7 +25,9 @@ export function MobileNav({ cities, header_search_placeholder, header_city_logo,
             <Hamburger toggled={isOpen} toggle={setIsOpen} size={20} color='#E13A8D' />
             <div className={`${styles.wrapper} ${isOpen ? styles.isOpen : ""}`} onClick={handleWrapperClick}>
                 <div className={`${styles.menu} ${isOpen ? styles.isOpenMenu : ""}`}>
-                    {cities && <CitySelect cities={cities} iconUrl={header_city_logo} />}
+                    <Suspense>
+                        {cities && <CitySelect cities={cities} iconUrl={header_city_logo} />}
+                    </Suspense>
                     <Search placeholder={header_search_placeholder} />
                     <div onClick={() => setIsOpen(false)} className={styles.menuWrapper}>
                         <Menu items={menuItems} />

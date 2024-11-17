@@ -3,7 +3,7 @@ import { Menu } from '@/components/modules/menu/menu';
 import { CitySelect } from '@/components/modules/citySelect/citySelect';
 import styles from './desktopNav.module.scss'
 import { IMenuProps } from '../nav';
-
+import { Suspense } from 'react'
 
 
 export function DesktopNav({ cities, header_search_placeholder, header_city_logo, menuItems }: IMenuProps) {
@@ -17,7 +17,9 @@ export function DesktopNav({ cities, header_search_placeholder, header_city_logo
                 <Menu items={menuItems} />
             </div>
             <div className={styles.cities}>
-                {cities && <CitySelect cities={cities} iconUrl={header_city_logo} />}
+                <Suspense>
+                    {cities && <CitySelect cities={cities} iconUrl={header_city_logo} />}
+                </Suspense>
             </div>
         </div>
     )
