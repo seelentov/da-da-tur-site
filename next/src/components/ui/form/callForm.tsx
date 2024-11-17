@@ -11,7 +11,7 @@ import { POST } from '@/core/api/api';
 import { Loading } from '../loading/loading';
 import ReCAPTCHA from "react-google-recaptcha";
 import { clearObj } from '@/core/utils/obj/clearObj';
-import { RECAPTCHA_PUBLIC_KEY, TEST } from '@/core/api/env';
+import { RECAPTCHA_PUBLIC_KEY } from '@/core/api/env';
 
 export interface ICallFormProps {
     header?: string
