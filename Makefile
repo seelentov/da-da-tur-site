@@ -137,14 +137,6 @@ horizon-continue:
 stop-test-horizon:
 	docker compose exec horizon php artisan horizon:pause-supervisor supervisor-test
 
-# Создание файла .env, если он отсутствует
-env:
-	# Проверяет, существует ли файл .env
-	@if [ ! -f .env ]; then \
-	  # Копирует файл .env.example в .env
-	  cp .env.example .env; \
-	fi
-
 # Открыть консоль MySQL
 mysql:
 	docker compose exec db mysql -u root
@@ -208,9 +200,11 @@ dump-autoload:
 # Связать файл .env с контейнерами Laravel и Next.js
 env:
 	rm -rf ./laravel/.env
-	rm -rf ./next/.env
+	rm -rf ./next/.env*
 	ln .env ./laravel
 	ln .env ./next
+	ln .env ./next/.env.production
+	ln .env ./next/.env.development
 
 # Открыть консоль Redis
 redis:
