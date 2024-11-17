@@ -2,14 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Components\Clients\TelegramClient;
 use App\Http\Requests\Subscriber\StoreSubscriberRequest;
-use App\Jobs\ThrowTelegramSubscriber;
 use App\Mail\SubscribeMail;
 use App\Repositories\Subscriber\SubscriberRepository;
 use App\Services\TelegramSenderService\TelegramSenderService;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Queue;
 
 class SubscriberController extends Controller
 {

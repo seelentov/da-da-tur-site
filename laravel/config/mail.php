@@ -6,7 +6,7 @@ return [
     'host' => env('MAIL_HOST', 'smtp.yandex.ru'),
     'port' => env('MAIL_PORT', 587),
     'from' => [
-        'address' => 'da-datour@yandex.ru',
+        'address' => env('MAIL_USERNAME', 'da-datour@yandex.ru'),
         'name' => 'da-datour',
     ],
     'encryption' => env('MAIL_ENCRYPTION', 'tls'),
