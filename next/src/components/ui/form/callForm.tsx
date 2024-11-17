@@ -11,7 +11,7 @@ import { POST } from '@/core/api/api';
 import { Loading } from '../loading/loading';
 import ReCAPTCHA from "react-google-recaptcha";
 import { clearObj } from '@/core/utils/obj/clearObj';
-import { RECAPTCHA_PUBLIC_KEY } from '@/core/api/env';
+import { RECAPTCHA_PUBLIC_KEY, TEST } from '@/core/api/env';
 
 export interface ICallFormProps {
     header?: string
@@ -93,6 +93,7 @@ export function CallForm({ header = "Задать вопрос", defaultTheme = 
 
     const enabled = !isLoading && (RECAPTCHA_PUBLIC_KEY ? token != "" : true) && policy
 
+
     return (
         <div className={styles.main}>
             <h2>
@@ -118,6 +119,7 @@ export function CallForm({ header = "Задать вопрос", defaultTheme = 
                     sitekey={RECAPTCHA_PUBLIC_KEY}
                     onChange={(token: any) => setToken(token)}
                 />}
+                <p styles={{ display: 'none' }}>{TEST}</p>
             </form>
         </div>
     );

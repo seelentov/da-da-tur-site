@@ -296,3 +296,11 @@ git-drop:
 #Вход в tinker
 tinker:
 	docker compose exec laravel php artisan tinker
+
+#Очистить остановленные и неиспользуемые контейнеры/образы/кеш/хранилища
+prune:
+	docker system prune
+
+#Посмотреть занимаемое место и кол-во образов, контейнеров, хранилищ и кеша
+df:
+	docker system df
