@@ -119,7 +119,7 @@ export function CallForm({ header = "Задать вопрос", defaultTheme = 
                     sitekey={RECAPTCHA_PUBLIC_KEY}
                     onChange={(token: any) => setToken(token)}
                 />}
-                <p style={{ display: 'none' }}>{TEST}</p>
+                <p style={{ display: 'none' }}>{process.env.NEXT_PUBLIC_TEST}</p>
             </form>
         </div>
     );
