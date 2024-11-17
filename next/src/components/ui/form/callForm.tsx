@@ -11,7 +11,6 @@ import { POST } from '@/core/api/api';
 import { Loading } from '../loading/loading';
 import ReCAPTCHA from "react-google-recaptcha";
 import { clearObj } from '@/core/utils/obj/clearObj';
-import { RECAPTCHA_PUBLIC_KEY } from '@/core/api/env';
 
 export interface ICallFormProps {
     header?: string
@@ -56,7 +55,7 @@ export function CallForm({ header = "Задать вопрос", defaultTheme = 
             return
         }
 
-        if (RECAPTCHA_PUBLIC_KEY && (!token || token === "")) {
+        if (process.env.NEXT_PUBLIC_RECAPTCHA_PUBLIC_KEY && (!token || token === "")) {
             alert("Пройдите проверку ReCaptcha");
             return false;
         }
@@ -91,7 +90,7 @@ export function CallForm({ header = "Задать вопрос", defaultTheme = 
             })
     }
 
-    const enabled = !isLoading && (RECAPTCHA_PUBLIC_KEY ? token != "" : true) && policy
+    const enabled = !isLoading && (process.env.NEXT_PUBLIC_RECAPTCHA_PUBLIC_KEY ? token != "" : true) && policy
 
 
     return (
@@ -115,8 +114,8 @@ export function CallForm({ header = "Задать вопрос", defaultTheme = 
                     <Checkbox isChecked={policy} setIsChecked={setPolicy} label={"Я принимаю условия передачи информации"} required name="policy" />
                     <Button disabled={!enabled}>{isLoading ? <Loading color={"white"} min /> : 'отправить'}</Button>
                 </div>
-                {RECAPTCHA_PUBLIC_KEY && <ReCAPTCHA
-                    sitekey={RECAPTCHA_PUBLIC_KEY}
+                {process.env.NEXT_PUBLIC_RECAPTCHA_PUBLIC_KEY && <ReCAPTCHA
+                    sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_PUBLIC_KEY}
                     onChange={(token: any) => setToken(token)}
                 />}
                 <p style={{ display: 'none' }}>{process.env.NEXT_PUBLIC_TEST}</p>
