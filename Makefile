@@ -2,6 +2,10 @@ include .env
 
 # Инициализация проекта
 init:
+	# Создание пользователя для rabbitmq
+	@make rabbitinit
+	# Очистить данные если они есть
+	@make clear-data
 	# Создать файлы конфигурации SSL
 	# @make generate-keys
 	# Создает файл .env, если он отсутствует, создает ссылку
@@ -16,6 +20,8 @@ init:
 	@make fresh
 	# Создает администратора
 	@make seed-admin
+	# Заполнение бд тестовыми данными
+	@make seed
 	# Запускает воркеров в фоновом режиме
 	docker compose --profile workers up -d
 	sleep 5s
@@ -27,24 +33,26 @@ init:
 	docker compose exec laravel php artisan storage:link
 	# Устанавливает права доступа для директории storage
 	docker compose exec laravel chmod -R 777 storage bootstrap/cache
-	
-	# Инициализация nextjs
-	@make init-next
-
 # Запуск контейнеров
 up:
 	# Запускает все сервисы в фоновом режиме
 	docker compose up -d
 	docker compose --profile workers up -d
-	docker compose --profile next up -d
 	sleep 5s
 	# Приостанавливает тестировочный супервайзер
 	@make stop-test-horizon
 
-# Инициализация nextjs
-init-next:
-	@make next-rebuild
-	docker compose --profile next up -d
+# Переносит definitions из главной папки в rabbitinit, прописав пользователя и пароль из env
+rabbitinit:
+	chmod +x scripts/rabbitpass.sh
+	rm -rf definitions.json.temp
+	cp definitions.json definitions.json.temp
+
+	sed -i "s#defpass#$(shell scripts/rabbitpass.sh ${RABBITMQ_PASSWORD})#" definitions.json.temp
+		sed -i "s#defuser#${RABBITMQ_USER}#" definitions.json.temp
+
+	rm -rf docker/rabbitinit/definitions.json
+	mv definitions.json.temp docker/rabbitinit/definitions.json
 
 # Остановка контейнеров
 stop:
@@ -97,7 +105,21 @@ refresh:
 
 # Запуск тестов
 test:
-	docker compose exec laravel php artisan test
+	docker compose exec laravel php artisan test tests/Unit
+  
+test-db:
+	docker compose exec laravel php artisan test tests/BaseServices/DBTest.php
+
+test-queue:
+	docker compose exec laravel php artisan test tests/BaseServices/QueueTest.php
+
+test-redis:
+	docker compose exec laravel php artisan test tests/BaseServices/RedisTest.php
+
+test-base:
+	@make test-db
+	@make test-redis
+	@make test-queue
 
 # Вывод логов для всех контейнеров
 logs-all:
@@ -106,20 +128,6 @@ logs-all:
 # Вывод логов для всех контейнеров с отслеживанием вывода
 watch-all:
 	docker compose logs --follow
-
-# Перезагрузка конфигурации nginx
-nginx-reload:
-	sudo docker compose exec nginx nginx -t && sudo docker compose exec nginx nginx -s reload
-
-# Очистка директории сборки next.js
-next-clear:
-	rm -rf ./next/.next
-
-# Перестройка приложения next.js
-next-rebuild:
-	@make next-clear
-	npm --prefix ./next run build
-
 
 # Вывод статуса Horizon
 horizon-status:
@@ -197,15 +205,6 @@ cache-clear:
 dump-autoload:
 	docker compose exec laravel composer dump-autoload
 
-# Связать файл .env с контейнерами Laravel и Next.js
-env:
-	rm -rf ./laravel/.env
-	rm -rf ./next/.env*
-	ln .env ./laravel
-	ln .env ./next
-	ln .env ./next/.env.production
-	ln .env ./next/.env.development
-
 # Открыть консоль Redis
 redis:
 	docker compose exec redis redis-cli
@@ -219,7 +218,6 @@ backup:
 	tar -czvf backups/$(shell date +"%d-%m-%Y-%H:%M:%S").tar.gz \
 	--exclude=backups/* \
 	--exclude=laravel/vendor/* \
-	--exclude=next/node_modules/* \
 	--exclude=docker/data/* \
 	* \
 	&& \
@@ -228,9 +226,21 @@ backup:
 
 # Удалить данные из /docker
 clear-data:
-	rm -rf $(shell pwd)/docker/dada
-	rm -rf $(shell pwd)/docker/redis
+	@make clear-rabbitmq
+	@make clear-redis
+	@make clear-db
+
+# Удалить данные rabbitmq
+clear-rabbitmq:
 	rm -rf $(shell pwd)/docker/rabbitmq
+
+# Удалить данные redis
+clear-redis:
+	rm -rf $(shell pwd)/docker/redis
+
+# Удалить данные базы данных
+clear-db:
+	rm -rf $(shell pwd)/docker/data
 
 # Настроить брандмауэр UFW
 ufw:
@@ -272,17 +282,12 @@ install-node:
 	npm cache clean -f
 	npm install -g n
 	n stable
-	hash -r
+	source ~/.bashrc
 
-#Просмотр журнала у контейнера с отслеживанием
-watch:
-	docker compose logs $$S --follow
+#Установить php + composer на хост машину
+install-php:
+	/bin/bash -c "$(curl -fsSL https://php.new/install/linux)"
 
-#Просмотр журнала у контейнера
-logs:
-	docker compose logs $$S
-
-#Откатить локальные изменения git и pull
 git-drop:
 	git stash push --include-untracked
 	git stash drop
@@ -291,10 +296,28 @@ git-drop:
 tinker:
 	docker compose exec laravel php artisan tinker
 
-#Очистить остановленные и неиспользуемые контейнеры/образы/кеш/хранилища
-prune:
-	docker system prune
+#Загрузить алиасы в .bashrc
+alias:
+	chmod +x scripts/aliases.sh
+	./scripts/aliases.sh
+	make git-drop
 
-#Посмотреть занимаемое место и кол-во образов, контейнеров, хранилищ и кеша
-df:
-	docker system df
+#Логи всего compose
+logs:
+	docker compose logs
+	
+#Логи всего compose c отслеживанием
+watch:
+	docker compose logs --follow
+
+#Статистика контейнеров
+stats:
+	docker stats 
+
+clear-logs:
+	truncate -s 0 /var/lib/docker/containers/**/*-json.log
+
+#Создать ссылку на .env
+env:
+	rm -rf ./laravel/.env
+	ln .env ./laravel

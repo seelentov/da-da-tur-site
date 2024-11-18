@@ -1,1 +1,1 @@
-export const API_URL = "http://vsegda-dada.ru"
+export const API_URL = "http://nginx"

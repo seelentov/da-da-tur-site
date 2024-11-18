@@ -11,10 +11,8 @@ services:
       - redis
       - rabbitmq
     command: ["php-fpm"]
-    ports:
-      - '9002:9000'
     networks:
-      - app
+      - backend
 
   next:
     container_name: next
@@ -27,10 +25,8 @@ services:
     depends_on:
       - nginx
       - laravel
-    ports:
-      - '3000:3000'
     networks:
-      - app
+      - frontend
 
   horizon:
     container_name: horizon
@@ -48,7 +44,7 @@ services:
       - workers
     restart: always
     networks:
-      - app
+      - backend
 
   # schedule:
   #   container_name: schedule
@@ -93,10 +89,8 @@ services:
       - POSTGRES_DB=${DB_DATABASE}
       - POSTGRES_USER=${DB_USERNAME}
       - POSTGRES_PASSWORD=${DB_PASSWORD}
-    ports:
-      - ${DB_PORT}:${DB_PORT}
     networks:
-      - app
+      - backend
 
   nginx:
     container_name: nginx
@@ -110,7 +104,8 @@ services:
       - ./docker/nginx/conf.d:/etc/nginx/conf.d
       - ./docker/nginx/etc-letsencrypt:/etc/letsencrypt
     networks:
-      - app
+      - backend
+      - frontend
 
   certbot:
     image: certbot/certbot
@@ -124,25 +119,19 @@ services:
     profiles: 
       - certbot
     networks:
-      - app
+      - backend
 
   rabbitmq:
     image: rabbitmq:3-management
     container_name: rabbitmq
     hostname: ${RABBITMQ_HOST}
-    environment:
-      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER}
-      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD}
-    ports:
-        - ${RABBITMQ_ADMIN_PORT}:${RABBITMQ_ADMIN_PORT}
-        - ${RABBITMQ_PORT}:${RABBITMQ_PORT}
     restart: always
     volumes:
       - ./docker/rabbitmq:/var/lib/rabbitmq
       - ./docker/rabbitinit/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
       - ./docker/rabbitinit/definitions.json:/etc/rabbitmq/definitions.json:ro
     networks:
-      - app
+      - backend
 
   redis:
       image: redis:alpine
@@ -150,11 +139,11 @@ services:
       restart: unless-stopped
       volumes:
       - ./docker/redis:/data
-      ports:
-        - ${REDIS_PORT}:${REDIS_PORT}
       networks:
-      - app
+      - backend
 
 networks:
-    app:
-        name: app
+    frontend:
+        name: frontend
+    backend:
+        name: backend
