@@ -33,6 +33,25 @@ init:
 	docker compose exec laravel php artisan storage:link
 	# Устанавливает права доступа для директории storage
 	docker compose exec laravel chmod -R 777 storage bootstrap/cache
+	# Инициализация nextjs
+	@make init-next
+
+
+
+# Инициализация nextjs
+init-next:
+	@make next-rebuild
+	docker compose --profile next up -d
+
+# Очистка директории сборки next.js
+next-clear:
+	rm -rf ./next/.next
+
+# Перестройка приложения next.js
+next-rebuild:
+	@make next-clear
+	npm --prefix ./next run build
+
 # Запуск контейнеров
 up:
 	# Запускает все сервисы в фоновом режиме
@@ -218,6 +237,7 @@ backup:
 	tar -czvf backups/$(shell date +"%d-%m-%Y-%H:%M:%S").tar.gz \
 	--exclude=backups/* \
 	--exclude=laravel/vendor/* \
+	--exclude=next/node_modules/* \
 	--exclude=docker/data/* \
 	* \
 	&& \
@@ -317,7 +337,13 @@ stats:
 clear-logs:
 	truncate -s 0 /var/lib/docker/containers/**/*-json.log
 
-#Создать ссылку на .env
 env:
 	rm -rf ./laravel/.env
+	rm -rf ./next/.env*
 	ln .env ./laravel
+	ln .env ./next
+	ln .env ./next/.env.production
+	ln .env ./next/.env.development
+
+prune:
+	docker system prune
