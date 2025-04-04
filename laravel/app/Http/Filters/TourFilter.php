@@ -12,6 +12,7 @@ class TourFilter extends AbstractFilter
     public const NAME = 'name';
     public const TEXT = 'text';
     public const LAST_MINUTE_DEAL = 'last_minute_deal';
+    public const POPULAR = 'popular';
     public const SLUG = 'slug';
 
     public const CITY = 'city';
@@ -22,6 +23,7 @@ class TourFilter extends AbstractFilter
             self::NAME => [$this, 'name'],
             self::TEXT => [$this, 'text'],
             self::LAST_MINUTE_DEAL => [$this, 'last_minute_deal'],
+            self::POPULAR => [$this, 'popular'],
             self::SLUG => [$this, 'slug'],
             self::CITY => [$this, 'city'],
         ];
@@ -47,6 +49,11 @@ class TourFilter extends AbstractFilter
     public function last_minute_deal(Builder $builder, $value)
     {
         $builder->orWhere('last_minute_deal', $value);
+    }
+
+    public function popular(Builder $builder, $value)
+    {
+        $builder->orWhere('popular', $value);
     }
 
     public function slug(Builder $builder, $value)

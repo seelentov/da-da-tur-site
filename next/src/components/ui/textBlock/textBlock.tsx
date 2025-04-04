@@ -14,9 +14,10 @@ interface ITextBlockProps {
         text: string,
         link: string
     }
+    blank?: boolean
 }
 
-export function TextBlock({ text, image_url, imageAlt, imagePos = "left", header, button }: ITextBlockProps) {
+export function TextBlock({ text, image_url, imageAlt, imagePos = "left", header, button, blank = false }: ITextBlockProps) {
     return (
         <div className={`${styles.main} ${imagePos === "right" ? styles.mainRight : ""}`}>
             <div className={styles.left}>
@@ -34,7 +35,7 @@ export function TextBlock({ text, image_url, imageAlt, imagePos = "left", header
                 <h2>{header}</h2>
                 {text && <div dangerouslySetInnerHTML={{ __html: text }}></div>}
                 {button &&
-                    <Link href={button.link}>
+                    <Link href={button.link} target={blank ? '_blank' : undefined}>
                         <Button>{button.text}</Button>
                     </Link>}
             </div>

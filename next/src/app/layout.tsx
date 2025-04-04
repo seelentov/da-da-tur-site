@@ -22,11 +22,11 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: "DA-DA Тур",
   description: "Dada-тур - это туроператор с большим опытом. 11 лет на рынке туристических услуг. Более 10000 довольных туристов. Наш номер в официальном реестре туроператоров РТО 025899",
-  metadataBase: new URL(process.env.APP_URL || ""),
+  metadataBase: new URL(process.env.APP_URL || "https://vsegda-dada.ru"),
   openGraph: {
     title: 'DA-DA Тур',
     description: 'Dada-тур - это туроператор с большим опытом. 11 лет на рынке туристических услуг. Более 10000 довольных туристов. Наш номер в официальном реестре туроператоров РТО 025899',
-    url: process.env.APP_URL || "",
+    url: process.env.APP_URL || "https://vsegda-dada.ru",
     siteName: 'DA-DA Тур',
     images: [
       {
@@ -87,11 +87,6 @@ export default async function RootLayout(props: {
                       hrefBegin: "tel:"
                     },
                     {
-                      label: options?.contacts_email_label || "",
-                      value: options?.contacts_email || "",
-                      hrefBegin: "mailto:"
-                    },
-                    {
                       label: options?.contacts_address_label || "",
                       value: options?.contacts_address || "",
                     },
@@ -104,7 +99,7 @@ export default async function RootLayout(props: {
                   />
                 </div>
               </div>
-              <YandexMap center={[Number(options?.map_pos1) || 55.159902, Number(options?.map_pos2) || 61.402554]} />
+              <YandexMap center={[Number(options?.map_pos1) || 55.184927, Number(options?.map_pos2) || 61.398915]} />
             </main>
 
 

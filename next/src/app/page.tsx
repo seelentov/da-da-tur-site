@@ -10,11 +10,11 @@ import { Metadata } from "next";
 export const metadata: Metadata = {
   title: "DA-DA Тур",
   description: "Dada-тур - это туроператор с большим опытом. 11 лет на рынке туристических услуг. Более 10000 довольных туристов. Наш номер в официальном реестре туроператоров РТО 025899",
-  metadataBase: new URL(process.env.APP_URL || ""),
+  metadataBase: new URL(process.env.APP_URL || "https://vsegda-dada.ru"),
   openGraph: {
     title: 'DA-DA Тур',
     description: 'Dada-тур - это туроператор с большим опытом. 11 лет на рынке туристических услуг. Более 10000 довольных туристов. Наш номер в официальном реестре туроператоров РТО 025899',
-    url: process.env.APP_URL || "",
+    url: process.env.APP_URL || "https://vsegda-dada.ru",
     siteName: 'DA-DA Тур',
     images: [
       {
@@ -43,7 +43,7 @@ export default async function HomePage({ searchParams }: IBasePageProps) {
 
   const advantages = await GET<null, Advantage[]>("advantage")
 
-  const options = await GET<IndexOptionRequest, { [key: string]: string }>("option", { category: ['about', 'core', 'advantages', 'reviews', 'schedule', "last_minute_deal"] });
+  const options = await GET<IndexOptionRequest, { [key: string]: string }>("option", { category: ['about', 'core', 'advantages', 'reviews', 'schedule', "last_minute_deal", "discount"] });
 
   return (
     <div>
@@ -53,7 +53,7 @@ export default async function HomePage({ searchParams }: IBasePageProps) {
           <BlockHeader header={options?.schedule_header} button={{ text: options?.schedule_button || "", link: "/tours" }} />
         </div>
         <div className="container">
-          {tours && <ToursSlider tours={tours.filter(t => !t.last_minute_deal)} />}
+          {tours && <ToursSlider tours={tours.filter(t => t.popular)} />}
         </div>
       </div>
       <div className="block" style={{ background: "rgb(251, 251, 251)" }}>
@@ -64,7 +64,12 @@ export default async function HomePage({ searchParams }: IBasePageProps) {
       </div>
       <div className="block">
         <div className="container">
-          <TextBlock image_url={options?.about_image} imageAlt={options?.core_company_name} text={options?.about_desc} header={options?.about_header} button={{ text: options?.about_button || "", link: "/about" }} />
+          <TextBlock image_url={options?.discount_image} imageAlt={options?.core_company_name} text={options?.discount_desc} header={options?.discount_header} button={{ text: options?.discount_button || "", link: "https://mrqz.me/67c864abefe05f001926b2fb" }} blank />
+        </div>
+      </div>
+      <div className="block">
+        <div className="container">
+          <TextBlock image_url={options?.about_image} imageAlt={options?.core_company_name} text={options?.about_desc} header={options?.about_header} button={{ text: options?.about_button || "", link: "/about" }} imagePos="right" />
         </div>
       </div>
       <div className="block" style={{ background: "#F5F7FA", zIndex: 2 }}>

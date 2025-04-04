@@ -20,10 +20,9 @@ return new class extends Migration
             $table->string("image_url")->nullable()->default(null);
             $table->string("slug")->unique();
             $table->text("text")->nullable()->default(null);
-            $table->date("start_date");
-            $table->date("end_date");
             $table->integer("position")->default(0);
             $table->boolean("last_minute_deal")->default(false);
+            $table->boolean("popular")->default(false);
             $table->unsignedBigInteger("category_id")->default(1);
             $table->unsignedBigInteger("city_id")->default(1);
         });

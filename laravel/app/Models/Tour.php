@@ -23,10 +23,8 @@ class Tour extends Model
         return $this->belongsTo(City::class);
     }
 
-    protected function casts(): array
+    public function dates()
     {
-        return [
-            'date' => 'datetime',
-        ];
+        return $this->hasMany(TourDate::class);
     }
 }

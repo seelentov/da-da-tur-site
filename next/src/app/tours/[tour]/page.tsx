@@ -13,7 +13,7 @@ export async function generateMetadata(
   { params }: ITourPageProps
 ): Promise<Metadata> {
 
-  const tour = await GET<null, Tour>(`tour/${params.tour}`)
+  const tour = await GET<null, TourDetail>(`tour/${params.tour}`)
 
   if (!tour) {
     notFound();
@@ -25,7 +25,7 @@ export async function generateMetadata(
     openGraph: {
       title: `${tour.name} | DA-DA Тур`,
       description: stripHTML(tour.description || ""),
-      url: process.env.APP_URL || "",
+      url: process.env.APP_URL || "https://vsegda-dada.ru",
       siteName: 'DA-DA Тур',
       images: [
         {
@@ -49,7 +49,7 @@ interface ITourPageProps extends IBasePageProps {
 
 export default async function TourPage({ params }: ITourPageProps) {
 
-  const tour = await GET<null, Tour>(`tour/${params.tour}`)
+  const tour = await GET<null, TourDetail>(`tour/${params.tour}`)
 
   if (!tour) {
     notFound();
@@ -68,7 +68,11 @@ export default async function TourPage({ params }: ITourPageProps) {
             <div className={styles.headerText}>
               <div className={styles.stats}>
                 <p className={`${styles.price} ${styles.line}`}><strong>{options?.tour_page_price} </strong> <span>{tour.price}</span> ₽ {tour.old_price && <span><span>{tour.old_price} ₽</span> <span> -{discount}% </span></span>}</p>
-                <p className={styles.line}><strong>{options?.tour_page_date} </strong> <span>{convertDBDateToString(tour.start_date)}</span> - <span>{convertDBDateToString(tour.end_date)}</span></p>
+                <p className={styles.line}><strong>{options?.tour_page_date} </strong></p>
+                {tour.dates.map((d, i) =>
+                  <p key={i}>
+                    <span>{convertDBDateToString(d.start_date)}</span> - <span>{convertDBDateToString(d.end_date)}</span>
+                  </p>)}
               </div>
               {tour.description &&
                 <div className={styles.description} dangerouslySetInnerHTML={{ __html: tour.description }}></div>}

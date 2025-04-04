@@ -107,7 +107,7 @@ class OptionSeeder extends Seeder
 
         Option::create([
             "key" => "tour_page_date",
-            "value" => "Дата:",
+            "value" => "Даты тура:",
             "category" => "tour_page"
         ]);
 
@@ -140,7 +140,7 @@ class OptionSeeder extends Seeder
 
         Option::create([
             "key" => "contacts_number",
-            "value" => "+7 (902) 860 87-52",
+            "value" => "+7(951)-782-24-01",
             "category" => "contacts"
         ]);
 
@@ -158,7 +158,7 @@ class OptionSeeder extends Seeder
 
         Option::create([
             "key" => "contacts_address",
-            "value" => "улица Труда, 156В, Челябинск",
+            "value" => "Проспект Победы, 168, 501 офис, 5 этаж",
             "category" => "contacts"
         ]);
 
@@ -176,7 +176,7 @@ class OptionSeeder extends Seeder
 
         Option::create([
             "key" => "contacts_work_schedule",
-            "value" => "Пн - пт, 9:00 - 18:00",
+            "value" => "Ежедневно, 10:00 - 19:00",
             "category" => "contacts"
         ]);
 
@@ -310,14 +310,47 @@ class OptionSeeder extends Seeder
 
         Option::create([
             "key" => "map_pos1",
-            "value" => "55.159902",
+            "value" => "55.184927",
             "category" => "map"
         ]);
 
         Option::create([
             "key" => "map_pos2",
-            "value" => "61.402554",
+            "value" => "61.398915",
             "category" => "map"
+        ]);
+
+        Option::create([
+            "key" => "discount_header",
+            "value" => "Бонусная система DADA-ТУР!",
+            "category" => "discount"
+        ]);
+
+        Option::create([
+            "key" => "discount_button",
+            "value" => "Пройти опрос",
+            "category" => "discount"
+        ]);
+
+        Option::create([
+            "key" => "discount_desc",
+            "value" => 
+            "<p><strong>Мы запустили бонусную систему - систему поощрения и благодарности каждому клиенту за выбор нашей компании!</strong></p>"
+            ."<p>Вы можете получить:</p>"
+            ."<ul>"
+                ."<li>приветственный бонус</li>"
+                ."<li>бонус за рекомендацию</li>"
+                ."<li>бонусный кэшбек</li>"
+            ."</ul>"
+            ."<p>Если вы еще не прошли наш опрос, то скорее сделайте это и получите до 3000р на любой тур и дисконт карту туриста <strong>со скидкой до 50% и кешбеком</strong>! </p>"
+            ,
+            "category" => "discount"
+        ]);
+
+        ImageOption::create([
+            "key" => "discount_image",
+            "value" => "/storage/seed/discount.png",
+            "category" => "discount"
         ]);
     }
 }

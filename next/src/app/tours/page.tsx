@@ -7,11 +7,11 @@ import { OpenModalBtn } from "@/components/modules/openModalBtn/openModalBtn";
 export const metadata: Metadata = {
   title: "Расписание туров | DA-DA Тур",
   description: "Dada-тур - это туроператор с большим опытом. 11 лет на рынке туристических услуг. Более 10000 довольных туристов. Наш номер в официальном реестре туроператоров РТО 025899",
-  metadataBase: new URL(process.env.APP_URL || ""),
+  metadataBase: new URL(process.env.APP_URL || "https://vsegda-dada.ru"),
   openGraph: {
     title: 'Расписание туров | DA-DA Тур',
     description: 'Dada-тур - это туроператор с большим опытом. 11 лет на рынке туристических услуг. Более 10000 довольных туристов. Наш номер в официальном реестре туроператоров РТО 025899',
-    url: process.env.APP_URL || "",
+    url: process.env.APP_URL || "https://vsegda-dada.ru",
     siteName: 'DA-DA Тур',
     images: [
       {

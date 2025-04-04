@@ -33,6 +33,7 @@ class TourResource extends Resource
                 Forms\Components\TextInput::make('slug')
                     ->required(),
                 Forms\Components\Toggle::make('last_minute_deal'),
+                Forms\Components\Toggle::make('popular'),
                 Forms\Components\DatePicker::make('start_date')->required(),
                 Forms\Components\DatePicker::make('end_date')->required(),
                 Forms\Components\FileUpload::make('image_url'),
@@ -62,12 +63,10 @@ class TourResource extends Resource
                 Tables\Columns\IconColumn::make('last_minute_deal')
                     ->boolean()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('start_date')
-                    ->date()
+                Tables\Columns\IconColumn::make('popular')
+                    ->boolean()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('end_date')
-                    ->date()
-                    ->sortable(),
+
                 Tables\Columns\ImageColumn::make('image_url'),
                 Tables\Columns\TextColumn::make('position')
                     ->sortable(),

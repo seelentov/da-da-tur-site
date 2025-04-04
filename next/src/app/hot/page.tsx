@@ -6,11 +6,11 @@ import { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Горящие туры | DA-DA Тур",
   description: "Dada-тур - это туроператор с большим опытом. 11 лет на рынке туристических услуг. Более 10000 довольных туристов. Наш номер в официальном реестре туроператоров РТО 025899",
-  metadataBase: new URL(process.env.APP_URL || ""),
+  metadataBase: new URL(process.env.APP_URL || "https://vsegda-dada.ru"),
   openGraph: {
     title: 'Горящие туры | DA-DA Тур',
     description: 'Dada-тур - это туроператор с большим опытом. 11 лет на рынке туристических услуг. Более 10000 довольных туристов. Наш номер в официальном реестре туроператоров РТО 025899',
-    url: process.env.APP_URL || "",
+    url: process.env.APP_URL || "https://vsegda-dada.ru",
     siteName: 'DA-DA Тур',
     images: [
       {
@@ -34,7 +34,6 @@ export default async function HotPage({ searchParams }: IBasePageProps) {
   const tours = await GET<IndexTourRequest, Tour[]>("tour", {
     city: searchParams.city,
     last_minute_deal: 1
-
   })
   const options = await GET<IndexOptionRequest, { [key: string]: string }>("option", { category: ['last_minute_deal_page'] });
 
