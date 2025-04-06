@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Http\Filters;
 
 use App\Http\Filters\Abstract\AbstractFilter;
@@ -14,8 +13,8 @@ class TourFilter extends AbstractFilter
     public const LAST_MINUTE_DEAL = 'last_minute_deal';
     public const POPULAR = 'popular';
     public const SLUG = 'slug';
-
     public const CITY = 'city';
+
     protected function getCallbacks(): array
     {
         return [
@@ -31,39 +30,42 @@ class TourFilter extends AbstractFilter
 
     public function category(Builder $builder, $value)
     {
-        $builder->orWhereHas('category', function ($q) use ($value) {
+        $builder->whereHas('category', function ($q) use ($value) {
             $q->where('slug', $value);
         });
     }
 
     public function name(Builder $builder, $value)
     {
-        $builder->orWhere('name', "ilike", '%' . $value . '%');
+        $builder->where('name', "ilike", '%' . $value . '%');
     }
 
     public function text(Builder $builder, $value)
     {
-        $builder->orWhere('text', "ilike", '%' . $value . '%')->orWhere('description', "ilike", '%' . $value . '%');
+        $builder->where(function($q) use ($value) {
+            $q->where('text', "ilike", '%' . $value . '%')
+              ->orWhere('description', "ilike", '%' . $value . '%');
+        });
     }
 
     public function last_minute_deal(Builder $builder, $value)
     {
-        $builder->orWhere('last_minute_deal', $value);
+        $builder->where('last_minute_deal', $value);
     }
 
     public function popular(Builder $builder, $value)
     {
-        $builder->orWhere('popular', $value);
+        $builder->where('popular', $value);
     }
 
     public function slug(Builder $builder, $value)
     {
-        $builder->orWhere('slug', $value);
+        $builder->where('slug', $value);
     }
 
     public function city(Builder $builder, $value)
     {
-        $builder->orWhereHas('city', function ($q) use ($value) {
+        $builder->whereHas('city', function ($q) use ($value) {
             $q->where('slug', $value);
         });
     }

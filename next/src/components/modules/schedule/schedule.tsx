@@ -32,8 +32,8 @@ export function Schedule({ tours }: IScheduleProps) {
     return (
         <div className={styles.main}>
             <div className={`text ${styles.part}`}>
-                <h2>Авиа - туры</h2>
                 <h2>Автобусные туры</h2>
+                <h2>Авиа - туры</h2>
             </div>
             {allMonts.map(month =>
                 <div key={month} className={styles.monthPart}>

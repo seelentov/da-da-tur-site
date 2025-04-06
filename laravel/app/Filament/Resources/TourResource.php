@@ -34,8 +34,6 @@ class TourResource extends Resource
                     ->required(),
                 Forms\Components\Toggle::make('last_minute_deal'),
                 Forms\Components\Toggle::make('popular'),
-                Forms\Components\DatePicker::make('start_date')->required(),
-                Forms\Components\DatePicker::make('end_date')->required(),
                 Forms\Components\FileUpload::make('image_url'),
                 Forms\Components\TextInput::make('position')
                     ->numeric()

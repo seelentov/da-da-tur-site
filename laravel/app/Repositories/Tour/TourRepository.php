@@ -15,7 +15,7 @@ class TourRepository  extends Repository implements ITourRepository
         $this->model = new Tour();
     }
 
-    public function get($filter = null, $limit = null, $offset = null)
+    public function get($filter = null, $limit = null, $offset = null, $hide_dubles = false)
         {
     $query = $this->model->select('tours.*', 'tour_dates.start_date', 'tour_dates.end_date')
         ->rightJoin('tour_dates', 'tours.id', '=', 'tour_dates.tour_id')
@@ -35,6 +35,30 @@ class TourRepository  extends Repository implements ITourRepository
         $query->offset($offset);
     }
 
+    if ($hide_dubles){
+        $data = $query->get()->toArray();
+
+        $uniqueItems = [];
+    
+    foreach ($data as $item) {
+        if (!isset($item['id'])) {
+            continue;
+        }
+        
+        $id = $item['id'];
+        if (!isset($uniqueItems[$id])) {
+            $uniqueItems[$id] = $item;
+        }
+    }
+    $filteredArray = array_values($uniqueItems);
+    
+    usort($filteredArray, function($a, $b) {
+        return $a['position'] <=> $b['position'];
+    });
+
+    return array_values($filteredArray);
+
+    }
     return $query->get();
 }
 

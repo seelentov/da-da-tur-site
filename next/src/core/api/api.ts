@@ -7,6 +7,8 @@ export const GET = async <T, U>(url: string, queryParams: T | null = null, optio
 
     const path = API_URL + '/api/' + url + "?" + (queryParams ? objectToQueryString(queryParams) : "");
 
+    console.log(path)
+
     const res = await fetch(path, {
         cache: 'no-cache', headers: {
             'Content-Type': 'application/json',

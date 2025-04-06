@@ -19,6 +19,7 @@ abstract class TourRequest extends Request
                 'last_minute_deal' => 'boolean',
                 'popular' => 'boolean',
                 'city' => 'string',
+                'hide_dubles' => 'boolean'
             ]
         );
     }

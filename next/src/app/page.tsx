@@ -36,7 +36,8 @@ export const metadata: Metadata = {
 export default async function HomePage({ searchParams }: IBasePageProps) {
 
   const tours = await GET<IndexTourRequest, Tour[]>("tour", {
-    city: searchParams.city
+    city: searchParams.city,
+    hide_dubles: 1
   })
 
   const banners = await GET<null, Banner[]>("banner")

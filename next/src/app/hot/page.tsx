@@ -33,9 +33,12 @@ export default async function HotPage({ searchParams }: IBasePageProps) {
 
   const tours = await GET<IndexTourRequest, Tour[]>("tour", {
     city: searchParams.city,
-    last_minute_deal: 1
+    last_minute_deal: 1,
+    hide_dubles: 1
   })
   const options = await GET<IndexOptionRequest, { [key: string]: string }>("option", { category: ['last_minute_deal_page'] });
+
+  console.log(tours?.map(t => t.last_minute_deal))
 
   return (
     <div>

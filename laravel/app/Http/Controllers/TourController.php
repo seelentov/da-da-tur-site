@@ -13,7 +13,8 @@ class TourController extends Controller
         $data = $this->tourRepository->get(
             $request->validated(),
             $request->query('limit'),
-            $request->query('offset')
+            $request->query('offset'),
+            $request->query('hide_dubles')
         );
 
         return response()->json($data);
