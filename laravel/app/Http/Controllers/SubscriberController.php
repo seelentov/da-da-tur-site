@@ -20,7 +20,7 @@ class SubscriberController extends Controller
         $data = $request->validated();
 
         $this->subscriberRepository->create($data["email"]);
-        Mail::queue(new SubscribeMail(["email" => $data["email"]]));
+        $this->telegramSenderService->sendSubscriber($data["email"]);
         return response()->json(200);
     }
 }

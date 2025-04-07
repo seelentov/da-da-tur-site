@@ -9,13 +9,15 @@ use Illuminate\Support\Facades\Mail;
 
 class SenderController extends Controller
 {
-    public function __construct(private TelegramSenderService $telegramSenderService) {}
+    public function __construct(
+        private TelegramSenderService $telegramSenderService
+        ) {}
 
     public function sendCallForm(SendCallFormSenderRequest $request)
     {
         $query = $request->validated();
 
-        Mail::queue(new CallFormMail($query));
+        $this->telegramSenderService->sendCallForm($query);
 
         return response()->json();
     }
