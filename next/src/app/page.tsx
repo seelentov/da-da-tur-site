@@ -49,6 +49,12 @@ export default async function HomePage({ searchParams }: IBasePageProps) {
   return (
     <div>
       {banners && < Banners banners={banners} />}
+      <div className="block" style={{ background: "rgb(251, 251, 251)" }}>
+        <div className="container">
+          <BlockHeader header={options?.last_minute_deal_header} button={{ text: options?.last_minute_deal_button || "", link: "/hot" }} />
+        </div>
+        {tours && <ToursSlider tours={tours.filter(t => t.last_minute_deal)} itemType={1} />}
+      </div>
       <div className="block">
         <div className="container">
           <BlockHeader header={options?.schedule_header} button={{ text: options?.schedule_button || "", link: "/tours" }} />
@@ -56,12 +62,6 @@ export default async function HomePage({ searchParams }: IBasePageProps) {
         <div className="container">
           {tours && <ToursSlider tours={tours.filter(t => t.popular)} />}
         </div>
-      </div>
-      <div className="block" style={{ background: "rgb(251, 251, 251)" }}>
-        <div className="container">
-          <BlockHeader header={options?.last_minute_deal_header} button={{ text: options?.last_minute_deal_button || "", link: "/hot" }} />
-        </div>
-        {tours && <ToursSlider tours={tours.filter(t => t.last_minute_deal)} itemType={1} />}
       </div>
       <div className="block">
         <div className="container">
