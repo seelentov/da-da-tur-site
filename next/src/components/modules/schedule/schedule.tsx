@@ -10,8 +10,6 @@ export function Schedule({ tours }: IScheduleProps) {
 
     const categorizedTours: { [key: number]: { [key: number]: Tour[] } } = {};
 
-
-
     tours.forEach(tour => {
         const category = tour.category_id;
         const month = new Date(tour.start_date).getMonth() + 1;
@@ -27,7 +25,7 @@ export function Schedule({ tours }: IScheduleProps) {
         categorizedTours[category][month].push(tour);
     });
 
-    const allMonts = Array.from(new Set(Object.keys(categorizedTours[1]).concat(Object.keys(categorizedTours[2])))).sort().map(el => Number(el))
+    const allMonts = Array.from(new Set(Object.keys(categorizedTours[1]).concat(Object.keys(categorizedTours[2])))).map(el => Number(el))
 
     return (
         <div className={styles.main}>
